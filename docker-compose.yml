@@ -1,0 +1,11 @@
+version: '3'
+services:
+  // dependecies from top to bottom
+  mongo:
+    ///
+  api:
+    ///
+  app:
+    ///
+  traefic:
+    ///
