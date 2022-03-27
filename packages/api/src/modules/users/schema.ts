@@ -14,6 +14,42 @@ export interface User {
   isAdmin: boolean;
 }
 
+export const UserJson = {
+  type: 'object',
+  properties: {
+    _id: {
+      type: 'string',
+    },
+    email: {
+      type: 'string',
+    },
+    firstName: {
+      type: 'string',
+    },
+    lastName: {
+      type: 'string',
+    },
+    country: {
+      type: 'string',
+    },
+    postalCode: {
+      type: 'string',
+    },
+    address: {
+      type: 'string',
+    },
+    createdAt: {
+      type: 'string',
+    },
+    updatedTime: {
+      type: 'string',
+    },
+    isAdmin: {
+      type: 'boolean'
+    },
+  },
+};
+
 const User = new Schema<User>({
   email: {
     type: String,

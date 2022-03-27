@@ -5,6 +5,7 @@ import fastifyJwt from 'fastify-jwt';
 import fastifySensible from 'fastify-sensible';
 
 import mongoose from './modules/common/plugins/mongoose';
+import authenticate from './modules/common/plugins/authenticate';
 
 import users from './modules/users/controllers';
 
@@ -48,6 +49,7 @@ fastify.register(fastifyJwt, (f) => ({
   }
 }));
 fastify.register(mongoose);
+fastify.register(authenticate);
 
 // routes
 fastify.register(users);

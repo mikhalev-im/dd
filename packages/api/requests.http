@@ -1,8 +1,25 @@
-### Login request
+### Register
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "email": "test@test.ru",
+  "password": "123456",
+  "passwordConfirm": "123456"
+}
+
+### Login
 POST http://localhost:8080/users/login
 Content-Type: application/json
 
 {
   "email": "test@test.ru",
-  "password": "12"
+  "password": "123456"
 }
+
+### Logout
+POST http://localhost:8080/users/logout
+
+### Get authenticated user
+GET http://localhost:8080/users/me
+Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5ydSIsImlhdCI6MTY0ODM4NTQ3MX0.6M_QB4yCPfNuILK0xSlUql28C5pCGf-o4TOgGVDxg08

@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import bcrypt from 'bcrypt';
-import { User } from '../schema';
+import { User, UserJson } from '../schema';
 
 interface Body {
   email: string;
@@ -29,7 +29,7 @@ export default (fastify: FastifyInstance) => {
         },
       },
       response: {
-        200: {}
+        200: UserJson,
       },
     },
     handler: async (request, reply) => {

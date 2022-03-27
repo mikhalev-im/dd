@@ -1,16 +1,15 @@
 import { FastifyInstance } from 'fastify';
-import { UserJson } from '../schema';
 
 export default (fastify: FastifyInstance) => {
-  fastify.get('/users/me', {
+  fastify.post('/users/logout', {
     schema: {
       response: {
-        200: UserJson,
+        200: {},
       },
     },
-    preHandler: [fastify.authenticate],
     handler: async (request, reply) => {
-      return request.user;
+      reply.clearCookie('token');
+      return {};
     }
   });
 }
