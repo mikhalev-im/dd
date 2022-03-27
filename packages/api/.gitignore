@@ -5,3 +5,6 @@
 
 # production
 /dist
+
+# env file
+.env
