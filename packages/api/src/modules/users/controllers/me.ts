@@ -1,17 +1,16 @@
-import { RouteOptions } from 'fastify';
+import { FastifyInstance } from 'fastify';
+import { User } from '../schema';
 
-const options: RouteOptions = {
-  method: 'GET',
-  url: '/users/me',
-  schema: {
-    response: {
-      200: {}
+export default (fastify: FastifyInstance) => {
+  fastify.get('/users/me', {
+    schema: {
+      response: {
+        200: {}
+      },
     },
-  },
-  handler: async function(request, reply) {
-    this.mongoose.model('User').find();
-    return { hello: 'world' }
-  }
-};
-
-export default options;
+    preHandler: [fastify.authenticate],
+    handler: async (request, reply) => {
+      return request.user;
+    }
+  });
+}

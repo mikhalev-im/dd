@@ -5,6 +5,7 @@ import { User } from '../schema';
 interface Body {
   email: string;
   password: string;
+  passwordConfirm: string;
 }
 
 interface Context {
@@ -12,7 +13,7 @@ interface Context {
 };
 
 export default (fastify: FastifyInstance) => {
-  fastify.post<Context>('/users/login', {
+  fastify.post<Context>('/users/register', {
     schema: {
       body: {
         type: 'object',
@@ -26,6 +27,10 @@ export default (fastify: FastifyInstance) => {
             type: 'string',
             minLength: 1,
           },
+          passwordConfirm: {
+            type: 'string',
+            minLength: 1,
+          },
         },
       },
       response: {
@@ -33,16 +38,23 @@ export default (fastify: FastifyInstance) => {
       },
     },
     handler: async (request, reply) => {
-      const user = await fastify.mongoose.model<User>('User').findOne({ email: request.body.email });
-
-      if (!user) {
-        throw fastify.httpErrors.notFound('User cannot be found');
-      };
-
-      const passwordValid = await bcrypt.compare(request.body.password, user.password);
-      if (!passwordValid) {
-        throw fastify.httpErrors.notFound('User cannot be found');
+      if (request.body.password !== request.body.passwordConfirm) {
+        throw fastify.httpErrors.badRequest('Passwords do not match');
       }
+
+      const User = fastify.mongoose.model<User>('User');
+
+      const existingUser = await User.findOne({ email: request.body.email });
+      if (existingUser) {
+        throw fastify.httpErrors.conflict('User with such email already exists');
+      }
+
+      const password = await bcrypt.hash(request.body.password, 10);
+
+      const user = await User.create({
+        email: request.body.email,
+        password,
+      });
 
       const token = fastify.jwt.sign({ email: user.email });
       reply.setCookie('token', token, {

@@ -40,7 +40,13 @@ fastify.register(fastifyEnv, {
 });
 fastify.register(fastifySensible);
 fastify.register(fastifyCookie);
-fastify.register(fastifyJwt, (f) => ({ secret: f.config.JWT_SECRET }));
+fastify.register(fastifyJwt, (f) => ({
+  secret: f.config.JWT_SECRET,
+  cookie: {
+    cookieName: 'token',
+    signed: false
+  }
+}));
 fastify.register(mongoose);
 
 // routes
