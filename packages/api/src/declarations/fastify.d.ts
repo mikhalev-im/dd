@@ -9,6 +9,7 @@ declare module 'fastify' {
       MONGO_URI: string;
       JWT_SECRET: string;
       NODE_ENV: 'development' | 'production';
+      PASSWORD_SALT_ROUNDS: number;
     },
   }
 }

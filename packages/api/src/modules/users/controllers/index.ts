@@ -1,10 +1,13 @@
 import { FastifyInstance } from 'fastify';
 
-import list from './list';
-import me from './me';
 import login from './login';
 import logout from './logout';
 import register from './register';
+import me from './me';
+import list from './list';
+import get from './get';
+import create from './create';
+import update from './update';
 
 export default async (fastify: FastifyInstance) => {
   login(fastify);
@@ -12,6 +15,8 @@ export default async (fastify: FastifyInstance) => {
   register(fastify);
 
   me(fastify);
-
-  fastify.route(list);
+  list(fastify);
+  get(fastify);
+  create(fastify);
+  update(fastify);
 };

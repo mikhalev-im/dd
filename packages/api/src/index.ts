@@ -36,6 +36,10 @@ fastify.register(fastifyEnv, {
         type: 'string',
         default: 'YOUR_256_BIT_SECRET',
       },
+      PASSWORD_SALT_ROUNDS: {
+        type: 'number',
+        default: 10,
+      },
     }
   },
 });

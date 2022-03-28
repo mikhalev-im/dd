@@ -3,13 +3,17 @@ import fp from 'fastify-plugin';
 
 import User, { User as UserInterface } from '../../users/schema';
 
+interface Payload {
+  email: string;
+}
+
 export default fp(async function authenticatePlugin (fastify: FastifyInstance) {
   fastify.decorate('authenticate', async (request: FastifyRequest) => {
     if (!request.cookies.token) {
       throw fastify.httpErrors.unauthorized('Invalid access token');
     }
 
-    let payload;
+    let payload: Payload;
     try {
       payload = await fastify.jwt.verify(request.cookies.token);
     } catch (err) {

@@ -34,7 +34,7 @@ export default (fastify: FastifyInstance) => {
         },
       },
       response: {
-        200: UserJson,
+        201: UserJson,
       },
     },
     handler: async (request, reply) => {
@@ -49,7 +49,7 @@ export default (fastify: FastifyInstance) => {
         throw fastify.httpErrors.conflict('User with such email already exists');
       }
 
-      const password = await bcrypt.hash(request.body.password, 10);
+      const password = await bcrypt.hash(request.body.password, fastify.config.PASSWORD_SALT_ROUNDS);
 
       const user = await User.create({
         email: request.body.email,
