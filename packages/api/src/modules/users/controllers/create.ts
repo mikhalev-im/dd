@@ -59,7 +59,7 @@ export default (fastify: FastifyInstance) => {
       const User = fastify.mongoose.model<User>('User');
 
       // check if such email is already taken
-      const user = await User.find({ email: request.body.email });
+      const user = await User.findOne({ email: request.body.email });
       if (user) {
         throw fastify.httpErrors.conflict('User with such email already exists');
       }

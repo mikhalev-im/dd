@@ -8,6 +8,12 @@ interface Context {
 export default (fastify: FastifyInstance) => {
   fastify.delete<Context>('/users/:id', {
     schema: {
+      params: {
+        id: {
+          type: 'string',
+          pattern: '^[0-9a-fA-F]{24}$',
+        },
+      },
       response: {
         204: {},
       },
