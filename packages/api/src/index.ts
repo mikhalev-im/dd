@@ -8,6 +8,7 @@ import mongoose from './modules/common/plugins/mongoose';
 import authenticate from './modules/common/plugins/authenticate';
 
 import users from './modules/users/controllers';
+import products from './modules/products/controllers';
 
 const fastify = Fastify({
   logger: true,
@@ -57,6 +58,7 @@ fastify.register(authenticate);
 
 // routes
 fastify.register(users);
+fastify.register(products);
 
 const main = async () => {
   try {

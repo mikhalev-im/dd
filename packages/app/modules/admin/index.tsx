@@ -20,6 +20,9 @@ import {
 import { UserList } from './components/users/list';
 import { UserCreate } from './components/users/create';
 import { UserEdit } from './components/users/edit';
+import { ProductList } from './components/products/list';
+import { ProductCreate } from './components/products/create';
+import { ProductEdit } from './components/products/edit';
 
 const { fetchJson } = fetchUtils;
 
@@ -28,42 +31,34 @@ const RECORD_1: Record = {
   name: 'test resource'
 };
 
+const DEFAULT_SORT_BY_RESOURCE: { [key: string]: string } = {
+  users: 'createdAt',
+  products: 'createdTime',
+};
+
 const dataProvider: DataProvider = {
-  async getList<RecordType extends Record>(resource: string, params: GetListParams) {
-    if (resource === 'users') {
-      const { order } = params.sort;
-      const { page, perPage } = params.pagination;
+  async getList(resource: string, params: GetListParams) {
+    const { order } = params.sort;
+    const { page, perPage } = params.pagination;
 
-      const offset = perPage * (page - 1);
-      const query = new URLSearchParams({
-        sortBy: 'createdAt',
-        order: order.toLowerCase(),
-        offset: offset.toString(),
-        limit: perPage.toString(),
-      }).toString();
+    const offset = perPage * (page - 1);
+    const query = new URLSearchParams({
+      sortBy: DEFAULT_SORT_BY_RESOURCE[resource],
+      order: order.toLowerCase(),
+      offset: offset.toString(),
+      limit: perPage.toString(),
+    }).toString();
 
-      const json = await fetchJson(`/api/${resource}?${query}`).then(({ json }) => json);
-      return {
-        data: json.data.map((resource: Record) => ({ ...resource, id: resource._id })),
-        total: json.total,
-      };
-    }
-
+    const json = await fetchJson(`/api/${resource}?${query}`).then(({ json }) => json);
     return {
-      data: [RECORD_1 as RecordType],
-      total: 1,
+      data: json.data.map((resource: Record) => ({ ...resource, id: resource._id })),
+      total: json.total,
     };
   },
-  async getOne<RecordType extends Record>(resource: string, params: GetOneParams) {
-    if (resource === 'users') {
-      const json = await fetchJson(`/api/${resource}/${params.id}`).then(({ json }) => json);
-      return {
-        data: { ...json, id: json._id },
-      };
-    }
-
+  async getOne(resource: string, params: GetOneParams) {
+    const json = await fetchJson(`/api/${resource}/${params.id}`).then(({ json }) => json);
     return {
-      data: RECORD_1 as RecordType,
+      data: { ...json, id: json._id },
     };
   },
   async getMany<RecordType extends Record>(resource: string, params: GetManyParams) {
@@ -77,34 +72,22 @@ const dataProvider: DataProvider = {
       total: 1,
     };
   },
-  async create<RecordType extends Record>(resource: string, params: CreateParams) {
-    if (resource === 'users') {
-      const json = await fetchJson(`/api/${resource}`, {
-        method: 'POST',
-        body: JSON.stringify(params.data),
-      }).then(({ json }) => json);
-      return {
-        data: { ...json, id: json._id },
-      };
-    }
-
+  async create(resource: string, params: CreateParams) {
+    const json = await fetchJson(`/api/${resource}`, {
+      method: 'POST',
+      body: JSON.stringify(params.data),
+    }).then(({ json }) => json);
     return {
-      data: RECORD_1 as RecordType,
+      data: { ...json, id: json._id },
     };
   },
-  async update<RecordType extends Record>(resource: string, params: UpdateParams) {
-    if (resource === 'users') {
-      const json = await fetchJson(`/api/${resource}/${params.id}`, {
-        method: 'PATCH',
-        body: JSON.stringify(params.data),
-      }).then(({ json }) => json);
-      return {
-        data: { ...json, id: json._id },
-      };
-    }
-
+  async update(resource: string, params: UpdateParams) {
+    const json = await fetchJson(`/api/${resource}/${params.id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(params.data),
+    }).then(({ json }) => json);
     return {
-      data: RECORD_1 as RecordType,
+      data: { ...json, id: json._id },
     };
   },
   async updateMany(resource: string, params: UpdateManyParams) {
@@ -126,7 +109,9 @@ const dataProvider: DataProvider = {
         body: '{}',
       });
     }))
-    return {};
+    return {
+      data: [],
+    };
   },
 };
 
@@ -140,6 +125,7 @@ const authProvider: AuthProvider = {
   async logout() {
     await fetchJson('/api/users/logout', {
       method: 'POST',
+      body: '{}',
     });
   },
   async checkAuth() {
@@ -160,8 +146,8 @@ const authProvider: AuthProvider = {
 const App = () => (
   <Admin disableTelemetry title='DarlingDove Admin' authProvider={authProvider} dataProvider={dataProvider}>
     <Resource name="users" list={UserList} create={UserCreate} edit={UserEdit} />
+    <Resource name="products" list={ProductList} create={ProductCreate} edit={ProductEdit} />
     <Resource name="orders" list={ListGuesser} />
-    <Resource name="products" list={ListGuesser} />
   </Admin>
 );
 
