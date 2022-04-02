@@ -8,7 +8,7 @@ export interface ProductImage {
 }
 
 export interface Product {
-  _id: Types.ObjectId,
+  _id: Types.ObjectId;
   name: string;
   description: string;
   sku: string;

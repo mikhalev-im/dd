@@ -150,6 +150,7 @@ export default (fastify: FastifyInstance) => {
         product.tags = body.tags;
       }
 
+      product.updatedTime = new Date();
       await product.save();
 
       return product;

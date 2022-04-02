@@ -93,6 +93,7 @@ export default (fastify: FastifyInstance) => {
         user.address = request.body.address;
       }
 
+      user.updatedTime = new Date();
       await user.save();
 
       return user;
