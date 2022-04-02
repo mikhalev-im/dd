@@ -1,6 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { Types } from 'mongoose';
-import { Order, OrderJson } from '../schema';
+import { Cart, CartJson } from '../schema';
 
 interface Query {
   limit: number;
@@ -13,12 +12,8 @@ interface Context {
   Querystring: Query;
 }
 
-interface DbQueryFilters {
-  ['user.user']?: Types.ObjectId;
-}
-
 export default (fastify: FastifyInstance) => {
-  fastify.get<Context>('/orders', {
+  fastify.get<Context>('/carts', {
     schema: {
       querystring: {
         type: 'object',
@@ -48,7 +43,7 @@ export default (fastify: FastifyInstance) => {
           properties: {
             data: {
               type: 'array',
-              items: OrderJson,
+              items: CartJson,
             },
             total: {
               type: 'number',
@@ -59,16 +54,15 @@ export default (fastify: FastifyInstance) => {
     },
     preHandler: [fastify.authenticate],
     handler: async (request) => {
-      const { limit, offset, sortBy, order } = request.query;
-      const Order = fastify.mongoose.model<Order>('Order');
-
-      const filters: DbQueryFilters = {};
       if (!request.user.isAdmin) {
-        filters['user.user'] = request.user._id;
+        throw fastify.httpErrors.forbidden('Not allowed to fetch carts');
       }
 
-      const total = await Order.countDocuments(filters);
-      const data = await Order.find(filters).limit(limit).skip(offset).sort({ [sortBy]: order }).populate(['user.user', 'items.product', 'promocodes.promocode']);
+      const { limit, offset, sortBy, order } = request.query;
+      const Cart = fastify.mongoose.model<Cart>('Cart');
+
+      const total = await Cart.countDocuments({});
+      const data = await Cart.find({}).limit(limit).skip(offset).sort({ [sortBy]: order }).populate(['items.product', 'promocodes.promocode']);
 
       return { data, total };
     }

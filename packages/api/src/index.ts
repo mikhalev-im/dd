@@ -9,6 +9,8 @@ import authenticate from './modules/common/plugins/authenticate';
 
 import users from './modules/users/controllers';
 import products from './modules/products/controllers';
+import carts from './modules/carts/controllers';
+import orders from './modules/orders/controllers';
 
 const fastify = Fastify({
   logger: true,
@@ -59,6 +61,8 @@ fastify.register(authenticate);
 // routes
 fastify.register(users);
 fastify.register(products);
+fastify.register(carts);
+fastify.register(orders);
 
 const main = async () => {
   try {

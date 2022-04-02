@@ -11,7 +11,7 @@ interface PromocodeLimitations {
   minSum: number;
 }
 
-interface Promocode {
+export interface Promocode {
   _id: Types.ObjectId,
   code: string;
   discount: PromocodeDiscount;
@@ -28,11 +28,14 @@ export const PromocodeJson = {
       type: 'string',
     },
     discount: {
-      type: {
-        type: 'string',
-      },
-      amount: {
-        type: 'integer'
+      type: 'object',
+      properties: {
+        type: {
+          type: 'string',
+        },
+        amount: {
+          type: 'integer'
+        },
       },
     },
     limitations: {
