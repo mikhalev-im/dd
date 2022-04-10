@@ -87,8 +87,8 @@ export const OrderJson = {
       },
     },
     promocodes: {
-      type: 'object',
-      properties: {
+      type: 'array',
+      items: {
         promocode: PromocodeJson,
         code: {
           type: 'string',

@@ -10,6 +10,10 @@ import { ProductEdit } from './components/products/edit';
 
 import { CartList } from './components/carts/list';
 
+import { OrderList } from './components/orders/list';
+import { OrderShow } from './components/orders/show';
+import { OrderEdit } from './components/orders/edit';
+
 import dataProvider from './data-provider';
 import authProvider from './auth-provider';
 
@@ -17,7 +21,7 @@ const App = () => (
   <Admin disableTelemetry title='DarlingDove Admin' authProvider={authProvider} dataProvider={dataProvider}>
     <Resource name="users" list={UserList} create={UserCreate} edit={UserEdit} />
     <Resource name="products" list={ProductList} create={ProductCreate} edit={ProductEdit} />
-    <Resource name="orders" list={ListGuesser} />
+    <Resource name="orders" list={OrderList} show={OrderShow} edit={OrderEdit} />
     <Resource name="carts" list={CartList} />
   </Admin>
 );
