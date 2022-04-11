@@ -1,4 +1,4 @@
-import { Admin, Resource, ListGuesser } from 'react-admin';
+import { Admin, Resource } from 'react-admin';
 
 import { UserList } from './components/users/list';
 import { UserCreate } from './components/users/create';
