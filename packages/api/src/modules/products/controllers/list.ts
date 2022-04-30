@@ -1,4 +1,5 @@
 import { FastifyInstance } from 'fastify';
+import type { FilterQuery } from 'mongoose';
 import { Product, ProductJson } from '../schema';
 
 interface Query {
@@ -6,7 +7,7 @@ interface Query {
   offset: number;
   sortBy: string;
   order: string;
-  category: string;
+  tags?: string | string[];
 }
 
 interface Context {
@@ -35,6 +36,20 @@ export default (fastify: FastifyInstance) => {
           order: {
             type: 'string',
             enum: ['asc', 'desc'],
+            default: 'asc',
+          },
+          tags: {
+            oneOf: [
+              {
+                type: 'array',
+                items: {
+                  type: 'string'
+                }
+              },
+              {
+                type: 'string',
+              }
+            ],
           },
         },
       },
@@ -54,11 +69,16 @@ export default (fastify: FastifyInstance) => {
       },
     },
     handler: async (request) => {
-      const { limit, offset, sortBy, order } = request.query;
+      const { limit, offset, sortBy, order, tags } = request.query;
       const Product = fastify.mongoose.model<Product>('Product');
 
-      const total = await Product.countDocuments({});
-      const data = await Product.find({}).limit(limit).skip(offset).sort({ [sortBy]: order });
+      const filters: FilterQuery<Product> = {};
+      if (tags) {
+        filters.tags = { $in: Array.isArray(tags) ? tags : [tags] };
+      }
+
+      const total = await Product.countDocuments(filters);
+      const data = await Product.find(filters).limit(limit).skip(offset).sort({ [sortBy]: order });
 
       return { data, total };
     }

@@ -31,7 +31,7 @@ const Header = () => {
                 return (
                   <li key={label}>
                     <Link href={href}>
-                      <a className={'block py-2 pr-4 pl-3 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0'}>{label}</a>
+                      <a className={'block py-2 pr-4 pl-3 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 hover:text-blue-700 md:p-0'}>{label}</a>
                     </Link>
 
                   </li>
@@ -42,8 +42,8 @@ const Header = () => {
 
           {/* profile and cart links */}
           <div className="flex items-center space-x-4">
-            <a className='md:hover:text-blue-700' href='#'><HiOutlineUserCircle size={24} /></a>
-            <a className='md:hover:text-blue-700' href='#'><HiOutlineShoppingBag size={24} /></a>
+            <a className='hover:text-blue-700' href='#'><HiOutlineUserCircle size={24} /></a>
+            <a className='hover:text-blue-700' href='#'><HiOutlineShoppingBag size={24} /></a>
           </div>
 
         </div>

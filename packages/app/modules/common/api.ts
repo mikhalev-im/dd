@@ -16,7 +16,17 @@ const api = {
     path: string,
     { query = {}, body }: RequestOptions = {}
   ) {
-    const url = `/api${path}?${new URLSearchParams(query).toString()}`;
+    const querystr = Object.entries(query).reduce((result, [key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach(value => result.append(key, value));
+      } else if (typeof value == 'string' || typeof value == 'number') {
+        result.append(key, value.toString());
+      }
+
+      return result;
+    }, new URLSearchParams());
+
+    const url = `/api${path}?${querystr.toString()}`;
 
     const options: RequestInit = {
       method,
@@ -64,6 +74,7 @@ export interface ProductsFilters {
   order?: 'asc' | 'desc';
   offset?: number;
   limit?: number;
+  tags?: string[];
 }
 
 export interface Product {
@@ -83,8 +94,11 @@ export interface GetProductsResponse {
 }
 
 export const getProducts = async (query: ProductsFilters): Promise<GetProductsResponse> => {
-  await new Promise(resolve => setTimeout(resolve, 10000));
   return api.get(`/products`, { query });
 };
+
+export const getProductTags = async (): Promise<string[]> => {
+  return api.get('/products/tags');
+}
 
 export default api;

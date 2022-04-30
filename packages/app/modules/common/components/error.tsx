@@ -8,7 +8,7 @@ const Error = ({ error }: ErrorProps) => {
       <p>Ой! Возникла какая-то ошибка!</p>
       <details>
         <summary>Подробности</summary>
-        <p>{error.toString()}</p>
+        <p>{error instanceof Error ? error.toString() : JSON.stringify(error)}</p>
       </details>
     </div>
   );
