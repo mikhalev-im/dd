@@ -1,10 +1,13 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
 import PageWrapper from "../../modules/common/components/page-wrapper";
 import ProductList from '../../modules/common/components/product-list';
 import TagsFilter from '../../modules/categories/components/tags';
+import TagsFilterMobile from '../../modules/categories/components/tags/mobile';
 import Select from '../../modules/common/components/select';
 import { ProductsFilters } from '../../modules/common/api';
+import { getProductTags } from '../../modules/common/api';
 import type { ParsedUrlQuery } from 'querystring';
 
 const pageSize = 36;
@@ -16,6 +19,7 @@ const options = [
   { label: 'В алфавитном порядке', value: 'name_asc' },
   { label: 'В обратном алфавитном порядке', value: 'name_desc' },
 ];
+const asideStyle = { minWidth: '260px' };
 
 const parseQuery = (query: ParsedUrlQuery) => {
   // make sure tags is always an array
@@ -43,6 +47,7 @@ const createQuery = (filters: { tags: string[], offset: number, sort: string }) 
 }
 
 const CategoryPage = () => {
+  const tagsData = useQuery<string[], Error>('product-tags', getProductTags);
   const router = useRouter();
 
   const { tags, offset, sort } = parseQuery(router.query);
@@ -71,12 +76,13 @@ const CategoryPage = () => {
       <div className='px-2'>
         <h1 className='text-4xl mb-4'>Открытки</h1>
         <div className='flex'>
-          <aside>
-            <TagsFilter value={tags} onChange={onTagsFilterChange} />
+          <aside className='hidden lg:block' style={asideStyle}>
+            <TagsFilter value={tags} onChange={onTagsFilterChange} options={tagsData.data} error={tagsData.error} />
           </aside>
           <div className='grow'>
-            <div className='px-4 mb-4'>
+            <div className='px-4 mb-4 flex place-content-between'>
               <Select options={options} value={sort} onChange={onSortChange} />
+              <TagsFilterMobile value={tags} onChange={onTagsFilterChange} options={tagsData.data} error={tagsData.error} />
             </div>
             <ProductList cacheKey='category-products' filters={{ limit: pageSize, offset, sortBy, order, tags }} pagination={{ pageSize, onChange: onPageChange }} />
           </div>

@@ -1,16 +1,14 @@
 import { ChangeEvent } from 'react';
-import { useQuery } from 'react-query';
-import { getProductTags } from '../../common/api';
-import Error from '../../common/components/error';
+import Error from '../../../common/components/error';
 
 interface TagsFilterProps {
   value: string[];
+  error?: Error | null;
+  options?: string[];
   onChange: (value: string[]) => void;
 }
 
-const TagsFilter = ({ value, onChange }: TagsFilterProps) => {
-  const { error, data } = useQuery<string[], Error>('product-tags', getProductTags);
-
+const TagsFilter = ({ value, error, options, onChange }: TagsFilterProps) => {
   if (error) return <Error error={error} />;
 
   const handler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -20,10 +18,10 @@ const TagsFilter = ({ value, onChange }: TagsFilterProps) => {
   }
 
   return (
-    <div className='w-80'>
+    <div>
       <h4 className='py-1 mb-1 font-semibold'>Категории</h4>
       <ul className='overflow-y-auto h-96 scrollbar' >
-        {(data || []).map(tag => (
+        {(options || []).map(tag => (
           <li key={tag}>
             <label className='flex items-center space-x-2'>
               <input
