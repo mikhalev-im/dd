@@ -10,6 +10,7 @@ interface ProductListProps {
   title?: string;
   filters: ProductsFilters;
   cacheKey: string;
+  narrow?: boolean;
   pagination?: {
     pageSize: number,
     onChange: (offset: number) => void;
@@ -18,7 +19,7 @@ interface ProductListProps {
 
 const fetchProducts = (filters: ProductsFilters) => () => getProducts(filters);
 
-const ProductList = ({ cacheKey, title, filters, pagination }: ProductListProps) => {
+const ProductList = ({ cacheKey, title, filters, pagination, narrow }: ProductListProps) => {
   const { status, data, error } = useQuery<GetProductsResponse, Error>([cacheKey, filters], fetchProducts(filters));
 
   let content;
@@ -36,9 +37,9 @@ const ProductList = ({ cacheKey, title, filters, pagination }: ProductListProps)
 
   return (
     <section className='mb-6 px-4'>
-      {title && (<h2 className='text-3xl mb-4'>{title}</h2>)}
+      {title && (<h2 className='text-2xl mb-4'>{title}</h2>)}
       {error && (<Error error={error} />)}
-      <div className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-x-6 gap-y-4'>
+      <div className={`grid ${narrow ? 'lg:grid-cols-3 md:grid-cols-2' : 'lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'} gap-x-6 gap-y-4`} >
         {content}
       </div>
       {pagination && <Pagination total={data?.total || 0} pageSize={pagination.pageSize} offset={filters.offset || 0} onChange={pagination.onChange} />}

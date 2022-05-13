@@ -5,7 +5,7 @@ import MenuMobile from './menu-mobile';
 const menu = [
   { label: 'Открытки', href: '/category/postcards' },
   { label: 'Поиск', href: '#' },
-  { label: 'О нас', href: '#' },
+  { label: 'О нас', href: '/about' },
 ];
 
 const Header = () => {

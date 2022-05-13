@@ -30,7 +30,7 @@ export default (fastify: FastifyInstance) => {
           },
           sortBy: {
             type: 'string',
-            enum: ['createdTime', 'ordersCount', 'name', 'price'],
+            enum: ['createdTime', 'ordersCount', 'name', 'price', 'random'],
             default: 'createdTime',
           },
           order: {
@@ -78,7 +78,9 @@ export default (fastify: FastifyInstance) => {
       }
 
       const total = await Product.countDocuments(filters);
-      const data = await Product.find(filters).limit(limit).skip(offset).sort({ [sortBy]: order });
+      const data = sortBy !== 'random'
+        ? await Product.find(filters).limit(limit).skip(offset).sort({ [sortBy]: order })
+        : await Product.aggregate([{ $match: filters }, { $sample: { size: limit } }]);
 
       return { data, total };
     }

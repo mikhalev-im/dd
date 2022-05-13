@@ -39,3 +39,9 @@ a {
   background-color: rgb(209 213 219);
   border-radius: 6px;
 }
+
+.spin-btn-none::-webkit-outer-spin-button,
+.spin-btn-none::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

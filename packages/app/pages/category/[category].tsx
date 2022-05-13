@@ -74,7 +74,7 @@ const CategoryPage = () => {
       </Head>
 
       <div className='px-2'>
-        <h1 className='text-4xl mb-4'>Открытки</h1>
+        <h1 className='text-3xl font-semibold mb-4'>Открытки</h1>
         <div className='flex'>
           <aside className='hidden lg:block' style={asideStyle}>
             <TagsFilter value={tags} onChange={onTagsFilterChange} options={tagsData.data} error={tagsData.error} />
@@ -84,7 +84,7 @@ const CategoryPage = () => {
               <Select options={options} value={sort} onChange={onSortChange} />
               <TagsFilterMobile value={tags} onChange={onTagsFilterChange} options={tagsData.data} error={tagsData.error} />
             </div>
-            <ProductList cacheKey='category-products' filters={{ limit: pageSize, offset, sortBy, order, tags }} pagination={{ pageSize, onChange: onPageChange }} />
+            <ProductList cacheKey='category-products' filters={{ limit: pageSize, offset, sortBy, order, tags }} pagination={{ pageSize, onChange: onPageChange }} narrow />
           </div>
         </div>
       </div>

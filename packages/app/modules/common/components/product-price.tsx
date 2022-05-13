@@ -12,7 +12,7 @@ const ProductPrice = ({ price, oldPrice}: ProductPriceProps) => {
 
   return (
     <p className="text-sm">
-      <s>{oldPrice} р</s> <span className="bg-pink-500 text-white rounded px-1">{price} ₽</span>
+      <span className="bg-pink-500 text-white rounded px-1">{price} ₽</span> <s className="text-xs">{oldPrice} ₽</s>
     </p>
   );
 };

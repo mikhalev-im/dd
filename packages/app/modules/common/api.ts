@@ -70,11 +70,18 @@ const api = {
 };
 
 export interface ProductsFilters {
-  sortBy?: 'createdTime' | 'ordersCount' | 'name' | 'price';
+  sortBy?: 'createdTime' | 'ordersCount' | 'name' | 'price' | 'random';
   order?: 'asc' | 'desc';
   offset?: number;
   limit?: number;
   tags?: string[];
+}
+
+interface ProductImage {
+  width: number;
+  height: number;
+  type: 'card' | 'big';
+  url: string;
 }
 
 export interface Product {
@@ -85,6 +92,8 @@ export interface Product {
   qty: number;
   price: number;
   oldPrice?: number;
+  tags: string[];
+  images: ProductImage[];
   createdTime: string;
 }
 
@@ -96,6 +105,10 @@ export interface GetProductsResponse {
 export const getProducts = async (query: ProductsFilters): Promise<GetProductsResponse> => {
   return api.get(`/products`, { query });
 };
+
+export const getProductBySku = async (sku: string): Promise<Product> => {
+  return api.get(`/products/sku/${sku}`);
+}
 
 export const getProductTags = async (): Promise<string[]> => {
   return api.get('/products/tags');
