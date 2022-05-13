@@ -4,7 +4,7 @@ import PageWrapper from '../modules/common/components/page-wrapper';
 
 const textWrapperStyle = { maxWidth: '900px' };
 
-const Home: NextPage = () => {
+const About: NextPage = () => {
   return (
     <PageWrapper>
       <Head>
@@ -44,4 +44,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default About;

@@ -8,11 +8,19 @@ interface Query {
   sortBy: string;
   order: string;
   tags?: string | string[];
+  search?: string;
 }
 
 interface Context {
   Querystring: Query;
 }
+
+// copied from 'escape-string-regexp' package
+const escapeStringRegexp = (str: string) => {
+  return str
+    .replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
+    .replace(/-/g, '\\x2d');
+};
 
 export default (fastify: FastifyInstance) => {
   fastify.get<Context>('/products', {
@@ -51,6 +59,9 @@ export default (fastify: FastifyInstance) => {
               }
             ],
           },
+          search: {
+            type: 'string',
+          },
         },
       },
       response: {
@@ -69,12 +80,17 @@ export default (fastify: FastifyInstance) => {
       },
     },
     handler: async (request) => {
-      const { limit, offset, sortBy, order, tags } = request.query;
+      const { limit, offset, sortBy, order, tags, search } = request.query;
       const Product = fastify.mongoose.model<Product>('Product');
 
       const filters: FilterQuery<Product> = {};
       if (tags) {
         filters.tags = { $in: Array.isArray(tags) ? tags : [tags] };
+      }
+
+      if (search) {
+        const escapedRegExp = new RegExp(escapeStringRegexp(search), 'i');
+        filters.$or = [{ name: escapedRegExp }, { sku: escapedRegExp }];
       }
 
       const total = await Product.countDocuments(filters);

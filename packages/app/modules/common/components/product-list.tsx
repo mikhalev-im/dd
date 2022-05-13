@@ -32,7 +32,9 @@ const ProductList = ({ cacheKey, title, filters, pagination, narrow }: ProductLi
       content = range.map((index) => (<ProductPlaceholder key={index} />));
       break;
     case 'success':
-      content = data.data.map((product) => (<ProductCard product={product} key={product._id} />));
+      content =  data.data.length
+        ? data.data.map((product) => (<ProductCard product={product} key={product._id} />))
+        : <p>Товары не найдены</p>
   }
 
   return (

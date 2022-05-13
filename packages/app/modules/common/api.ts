@@ -75,6 +75,7 @@ export interface ProductsFilters {
   offset?: number;
   limit?: number;
   tags?: string[];
+  search?: string;
 }
 
 interface ProductImage {
