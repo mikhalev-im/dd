@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { HiOutlineShoppingBag, HiOutlineUserCircle } from 'react-icons/hi';
 import MenuMobile from './menu-mobile';
+import { useCart } from '../../../carts';
 
 const menu = [
   { label: 'Открытки', href: '/category/postcards' },
@@ -9,6 +10,8 @@ const menu = [
 ];
 
 const Header = () => {
+  const count = useCart();
+
   return (
     <header className='text-gray-700'>
       <nav className="py-4">
@@ -43,7 +46,13 @@ const Header = () => {
           {/* profile and cart links */}
           <div className="flex items-center space-x-4">
             <a className='hover:text-blue-700' href='#'><HiOutlineUserCircle size={24} /></a>
-            <a className='hover:text-blue-700' href='#'><HiOutlineShoppingBag size={24} /></a>
+            <Link href='/cart'>
+              <a className='hover:text-blue-700 relative'>
+                <HiOutlineShoppingBag size={24} />
+                {count ? <span className='text-xs text-white text-center absolute -bottom-2 left-3.5 bg-pink-500 rounded px-1'>{count}</span> : null }
+              </a>
+            </Link>
+
           </div>
 
         </div>

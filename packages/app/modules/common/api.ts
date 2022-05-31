@@ -27,16 +27,13 @@ const api = {
     }, new URLSearchParams());
 
     const url = `/api${path}?${querystr.toString()}`;
-
-    const options: RequestInit = {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
+    const options: RequestInit = { method };
 
     if (body) {
       options.body = JSON.stringify(body);
+      options.headers = {
+        'Content-Type': 'application/json',
+      };
     }
 
     const response = await fetch(url, options);
@@ -113,6 +110,37 @@ export const getProductBySku = async (sku: string): Promise<Product> => {
 
 export const getProductTags = async (): Promise<string[]> => {
   return api.get('/products/tags');
+}
+
+interface CartItem {
+  product: Product;
+  qty: number;
+}
+
+interface CartService {
+  type: 'FREE_DELIVERY' | 'PAID_DELIVERY';
+  price: number;
+}
+
+export interface Cart {
+  items: CartItem[];
+  services: CartService[];
+}
+
+export const getCart = async (): Promise<Cart> => {
+  return api.get(`/carts/current`);
+}
+
+export const addItemToCart = async (productId: string, qty: number = 1): Promise<Cart> => {
+  return api.post(`/carts/items/${productId}`, { body: { qty } });
+}
+
+export const removeCartItem = async (productId: string): Promise<Cart> => {
+  return api.delete(`/carts/items/${productId}`, {});
+}
+
+export const changeCartItemQty = async (productId: string, qty: number): Promise<Cart> => {
+  return api.patch(`/carts/items/${productId}/qty`, { body: { qty } });
 }
 
 export default api;

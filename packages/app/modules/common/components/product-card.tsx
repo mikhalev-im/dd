@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 
 import { Product } from '../api';
+import { addToCart } from '../../carts';
 import ProductPrice from './product-price';
 
 interface ProductCardProps {
@@ -32,13 +33,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <p className="text-sm text-center">{product.name}</p>
         <div className="flex gap-4 justify-center">
           <ProductPrice price={product.price} oldPrice={product.oldPrice} />
-          <a href='#' className='block hover:text-blue-700'>
+          <button className='block hover:text-blue-700' onClick={() => addToCart(product._id)}>
             <HiOutlineShoppingBag size={20} className='svg-path-stroke-1' />
-          </a>
+          </button>
         </div>
-
       </div>
-
     </div>
   );
 }

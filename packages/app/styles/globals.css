@@ -45,3 +45,9 @@ a {
   -webkit-appearance: none;
   margin: 0;
 }
+
+@media (min-width: 320px) {
+  .ss-table-cell {
+    display: table-cell;
+  }
+}

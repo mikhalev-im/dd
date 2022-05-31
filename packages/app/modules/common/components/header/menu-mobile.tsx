@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Link from 'next/link';
 import { HiOutlineMenu } from 'react-icons/hi';
 
 const iconStyle = { paddingTop: '2px' };
@@ -23,7 +24,9 @@ const MenuMobile = ({ menu }: MenuMobileProps) => {
         <ul className="">
           {menu.map(({ label, href }) => (
             <li key={label}>
-              <a href={href} className="block p-4 border-b text-sm">{label}</a>
+              <Link href={href}>
+                <a className="block p-4 border-b text-sm">{label}</a>
+              </Link>
             </li>
           ))}
         </ul>

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useQuery } from 'react-query';
 import { getProductBySku, Product } from '../../modules/common/api';
+import { addToCart } from '../../modules/carts';
 
 import PageWrapper from '../../modules/common/components/page-wrapper';
 import ErrorCmp from '../../modules/common/components/error';
@@ -40,6 +41,11 @@ const ProductPage: NextPage = () => {
   );
 
   const { url: imgUrl } = product?.images.find(img => img.type === 'big') || { url: '' };
+
+  const toCart = () => {
+    if (!product) return;
+    addToCart(product._id, qty);
+  }
 
   return (
     <PageWrapper>
@@ -92,7 +98,7 @@ const ProductPage: NextPage = () => {
 
           <p className='grid grid-cols-1 lg:grid-cols-3 gap-2 mb-6'>
             <QtyInput value={qty} onChange={(n) => setQty(n)} />
-            <button className='rounded bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 lg:col-span-2' >Добавить в корзину</button>
+            <button className='rounded bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 lg:col-span-2' onClick={toCart} >Добавить в корзину</button>
           </p>
 
           <p className='flex flex-wrap gap-2'>

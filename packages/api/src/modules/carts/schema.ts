@@ -37,6 +37,7 @@ export interface Cart {
   promocodes: CartPromocode[];
   updatedTime: Date;
   createdTime: Date;
+  calcDelivery: () => Promise<void>;
 }
 
 export const CartJson = {
@@ -188,7 +189,7 @@ Cart.method('calcDelivery', async function() {
 
   // populate products if not already
   if (!this.populated('items.product')) {
-    await this.populate('items.product').execPopulate();
+    await this.populate('items.product');
   }
 
   // calc the sum of items
