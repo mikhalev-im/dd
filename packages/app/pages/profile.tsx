@@ -6,10 +6,16 @@ import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
 import { Dialog } from "@reach/dialog";
+import { HiOutlineX } from 'react-icons/hi';
 
-import { logout, getOrders, GetOrdersResponse } from '../modules/common/api';
+import { getUser, changePassword, logout, getOrders, GetOrdersResponse, User } from '../modules/common/api';
 import PageWrapper from '../modules/common/components/page-wrapper';
 import Pagination from '../modules/common/components/pagination';
+
+interface FormTarget {
+  password?: { value: string };
+  passwordConfirm?: { value: string };
+}
 
 const fetchOrders = (offset: number) => async () => {
   return getOrders(offset);
@@ -28,7 +34,8 @@ const Profile: NextPage = () => {
 
   const [showPasswordDialog, setShowPasswordDialog] = useState(false);
 
-  const { status, data } = useQuery<GetOrdersResponse>(['orders', offset], fetchOrders(offset), { retry: false });
+  const userQuery = useQuery<User, Error>('user', getUser, { retry: false });
+  const ordersQuery = useQuery<GetOrdersResponse>(['orders', offset], fetchOrders(offset), { retry: false });
 
   const onPageChange = (value: number) => {
     router.push(`${window.location.pathname}?offset=${value}`);
@@ -45,24 +52,35 @@ const Profile: NextPage = () => {
   }
 
   const onChangePassword: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+
+    const target = e.target as typeof e.target & FormTarget;
+
+    const password = target.password?.value || '';
+    const passwordConfirm = target.passwordConfirm?.value || '';
+
+    if (password !== passwordConfirm) {
+      toast.error('Пароли не совпадают!');
+      return;
+    }
 
     try {
-      // await logout();
+      await changePassword(userQuery.data?._id || '', password);
       toast.info('Пароль успешно изменен!');
+      setShowPasswordDialog(false);
     }
     catch (err) {
       toast.error('Что-то пошло не так!');
     }
   }
 
-  if (status === 'error') {
+  if (userQuery.status === 'error') {
     router.replace('/login');
     return null;
   }
 
   let content;
-  if (!data || !data.data.length) {
+  if (!ordersQuery.data || !ordersQuery.data.data.length) {
     content = (
       <p>Нет заказов</p>
     );
@@ -83,7 +101,7 @@ const Profile: NextPage = () => {
               </tr>
             </thead>
             <tbody>
-              {data.data.map((order) => {
+              {ordersQuery.data.data.map((order) => {
                 const qty = order.items.reduce((c, item) => c + item.qty, 0);
                 const date = new Date(order.createdTime);
 
@@ -101,7 +119,7 @@ const Profile: NextPage = () => {
             </tbody>
           </table>
         </div>
-        <Pagination total={data.total} offset={offset} pageSize={25} onChange={onPageChange} />
+        <Pagination total={ordersQuery.data.total} offset={offset} pageSize={25} onChange={onPageChange} />
       </div>
     );
   }
@@ -132,19 +150,27 @@ const Profile: NextPage = () => {
           </div>
         </div>
         <Dialog
-          className='rounded max-w-xs'
-          style={{ padding: '1rem' }}
+          className='rounded max-w-xs relative'
+          style={{ width: '80vw' }}
           isOpen={showPasswordDialog}
           onDismiss={() => setShowPasswordDialog(false)}
+          aria-label="Change password"
         >
+          <button
+            type="button"
+            className="absolute top-2 right-2"
+            onClick={() => setShowPasswordDialog(false)}
+          >
+            <HiOutlineX />
+          </button>
           <form onSubmit={onChangePassword}>
             <div className="mb-2">
               <label htmlFor="">Новый пароль</label>
-              <input required type="password" className="border rounded w-full py-1 px-2" />
+              <input required type="password" name='password' className="border rounded w-full py-1 px-2" />
             </div>
             <div className="mb-4">
               <label htmlFor="">Повторите пароль</label>
-              <input required type="password" className="border rounded w-full py-1 px-2" />
+              <input required type="password" name='passwordConfirm' className="border rounded w-full py-1 px-2" />
             </div>
             <button className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2">Сменить пароль</button>
           </form>

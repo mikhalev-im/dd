@@ -95,7 +95,7 @@ export const restorePasswordByToken = async (token: string): Promise<User> => {
 }
 
 export const changePassword = async (userId: string, password: string) => {
-  return api.post(`/users/${userId}`, { body: { password } });
+  return api.patch(`/users/${userId}`, { body: { password } });
 }
 
 export interface ProductsFilters {
