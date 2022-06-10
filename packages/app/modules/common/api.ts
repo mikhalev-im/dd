@@ -66,6 +66,38 @@ const api = {
   },
 };
 
+export interface User {
+  _id: string;
+}
+
+export const getUser = async (): Promise<User> => {
+  return api.get('/users/me');
+}
+
+export const login = async (email: string, password: string): Promise<User> => {
+  return api.post('/users/login', { body: { email, password } });
+}
+
+export const logout = async (): Promise<void> => {
+  return api.post('/users/logout', {});
+}
+
+export const register = async (email: string, password: string, passwordConfirm: string): Promise<User> => {
+  return api.post('/users/register', { body: { email, password, passwordConfirm } });
+}
+
+export const restorePassword = async (email: string): Promise<void> => {
+  return api.post('/users/restore', { body: { email } });
+}
+
+export const restorePasswordByToken = async (token: string): Promise<User> => {
+  return api.get('/users/restore', { query: { token } });
+}
+
+export const changePassword = async (userId: string, password: string) => {
+  return api.post(`/users/${userId}`, { body: { password } });
+}
+
 export interface ProductsFilters {
   sortBy?: 'createdTime' | 'ordersCount' | 'name' | 'price' | 'random';
   order?: 'asc' | 'desc';
@@ -142,5 +174,48 @@ export const removeCartItem = async (productId: string): Promise<Cart> => {
 export const changeCartItemQty = async (productId: string, qty: number): Promise<Cart> => {
   return api.patch(`/carts/items/${productId}/qty`, { body: { qty } });
 }
+
+interface OrderItem {
+  product: Product;
+  qty: number;
+  price: number;
+}
+
+interface OrderService {
+  type: 'FREE_DELIVERY' | 'PAID_DELIVERY';
+  price: number;
+}
+
+interface OrderUser {
+  user: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  country: string;
+  postalCode: string;
+}
+
+interface Order {
+  _id: string;
+  items: OrderItem[];
+  services: OrderService[];
+  total: number;
+  user: OrderUser;
+  comment: string;
+  shortId: string;
+  status: 'notPaid' | 'paid' | 'shipped' | 'done';
+  trackingNumber: string;
+  updatedTime: string;
+  createdTime: string;
+}
+
+export interface GetOrdersResponse {
+  data: Order[];
+  total: number;
+}
+
+export const getOrders = async (offset: number = 0): Promise<GetOrdersResponse> => {
+  return api.get('/orders', { query: { offset, sortBy: 'createdTime', order: 'desc' } });
+};
 
 export default api;

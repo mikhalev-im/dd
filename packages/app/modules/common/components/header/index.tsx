@@ -45,7 +45,9 @@ const Header = () => {
 
           {/* profile and cart links */}
           <div className="flex items-center space-x-4">
+            <Link href='/login'>
             <a className='hover:text-blue-700' href='#'><HiOutlineUserCircle size={24} /></a>
+            </Link>
             <Link href='/cart'>
               <a className='hover:text-blue-700 relative'>
                 <HiOutlineShoppingBag size={24} />

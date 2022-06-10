@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Head from 'next/head';
 import { toast } from 'react-toastify';
 
-import { getCart, removeCartItem, changeCartItemQty, Cart, Product } from '../modules/common/api';
+import { getCart, removeCartItem, changeCartItemQty, Cart } from '../modules/common/api';
 import Error from '../modules/common/components/error';
 import PageWrapper from '../modules/common/components/page-wrapper';
 import { cart, calcItems } from '../modules/carts';
@@ -16,6 +16,20 @@ const debounce = (func: Function, timeout = 500) => {
     timer = setTimeout(() => { func.apply(this, args); }, timeout);
   };
 };
+
+const emptyCart: Cart = {
+  items: [],
+  services: [],
+};
+
+const fetchCart = async (): Promise<Cart> => {
+  const cart = await getCart().catch((err) => {
+    if (err.statusCode === 404) return emptyCart;
+    throw err;
+  });
+
+  return cart;
+}
 
 const changeQty = async ({ productId, qty }: { productId: string, qty: number }) => {
   return changeCartItemQty(productId, qty);
@@ -42,14 +56,13 @@ const Cart: NextPage = () => {
     }
   });
 
-  const { status, data, error } = useQuery<Cart, Error>('cart', getCart);
-
+  const { status, data, error } = useQuery<Cart, Error>('cart', fetchCart, { retry: false });
 
   let content;
   switch (status) {
     case 'loading':
       // todo: table placeholder
-      content = (<h2>Loading...</h2>);
+      content = (<p>Загрузка...</p>);
       break;
     case 'error':
       content = (

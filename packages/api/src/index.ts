@@ -4,6 +4,7 @@ import fastifyCookie from 'fastify-cookie';
 import fastifyJwt from 'fastify-jwt';
 import fastifySensible from 'fastify-sensible';
 
+import mailer from './modules/common/plugins/mailer';
 import mongoose from './modules/common/plugins/mongoose';
 import authenticate from './modules/common/plugins/authenticate';
 
@@ -43,6 +44,13 @@ fastify.register(fastifyEnv, {
         type: 'number',
         default: 10,
       },
+      MAIL_PASSWORD: {
+        type: 'string',
+      },
+      BASE_URL: {
+        type: 'string',
+        default: 'https://darlingdove.ru',
+      }
     }
   },
 });
@@ -57,6 +65,18 @@ fastify.register(fastifyJwt, (f) => ({
 }));
 fastify.register(mongoose);
 fastify.register(authenticate);
+fastify.register(mailer, (f) => ({
+  defaults: { from: 'DarlingDove <info@darlingdove.ru>' },
+  transport: {
+    host: 'smtp.yandex.ru',
+    port: 465,
+    secure: true,
+    auth: {
+      user: 'info@darlingdove.ru',
+      pass: f.config.MAIL_PASSWORD,
+    }
+  }
+}));
 
 // routes
 fastify.register(users);

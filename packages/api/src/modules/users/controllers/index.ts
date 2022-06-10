@@ -9,11 +9,15 @@ import get from './get';
 import create from './create';
 import update from './update';
 import remove from './delete';
+import restorePost from './restorePost';
+import restoreGet from './restoreGet';
 
 export default async (fastify: FastifyInstance) => {
   login(fastify);
   logout(fastify);
   register(fastify);
+  restorePost(fastify);
+  restoreGet(fastify);
 
   me(fastify);
   list(fastify);
