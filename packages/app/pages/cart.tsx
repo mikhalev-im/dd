@@ -134,18 +134,13 @@ const Cart: NextPage = () => {
   }
 
   return (
-    <PageWrapper>
-      <Head>
-        <title>Интернет магазин почтовых открыток для посткроссинга DarlingDove</title>
-        <meta name="description" content='Чудесный магазин почтовых открыток! Здесь вы можете купить качественные почтовые открытки для посткроссинга и сопутствующие товары!' />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+    <PageWrapper
+      title='Корзина - Darlingdove'
+    >
       <div className='px-2'>
         <h1 className='text-3xl font-semibold mb-4'>Корзина</h1>
         {content}
       </div>
-
     </PageWrapper>
   )
 }

@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
-import Head from 'next/head';
 
 import { restorePasswordByToken } from "../modules/common/api";
 import PageWrapper from "../modules/common/components/page-wrapper";
@@ -38,13 +37,9 @@ const Restore: NextPage = () => {
   }
 
   return (
-    <PageWrapper>
-      <Head>
-        <title>Интернет магазин почтовых открыток для посткроссинга DarlingDove</title>
-        <meta name="description" content='Чудесный магазин почтовых открыток! Здесь вы можете купить качественные почтовые открытки для посткроссинга и сопутствующие товары!' />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+    <PageWrapper
+      title="Восстановление пароля - Darlingdove"
+    >
       <div className="px-2">
         {content}
       </div>

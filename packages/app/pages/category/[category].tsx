@@ -66,13 +66,10 @@ const CategoryPage = () => {
   }
 
   return (
-    <PageWrapper>
-      <Head>
-        <title>Категории</title>
-        <meta name="description" content='TODO' />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+    <PageWrapper
+      title='Открытки - DarlingDove'
+      description='Открытки для посткроссинга'
+    >
       <div className='px-2'>
         <h1 className='text-3xl font-semibold mb-4'>Открытки</h1>
         <div className='flex'>

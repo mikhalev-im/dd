@@ -12,12 +12,6 @@ const popularProductsFilters: ProductsFilters = { sortBy: 'ordersCount', order: 
 const Home: NextPage = () => {
   return (
     <PageWrapper>
-      <Head>
-        <title>Интернет магазин почтовых открыток для посткроссинга DarlingDove</title>
-        <meta name="description" content='Чудесный магазин почтовых открыток! Здесь вы можете купить качественные почтовые открытки для посткроссинга и сопутствующие товары!' />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <section className="mb-4 px-2">
         <Image src='https://storage.yandexcloud.net/darlingdove/greeting.jpg' alt="greeting banner" width={1900} height={550} className='rounded-2xl' />
       </section>

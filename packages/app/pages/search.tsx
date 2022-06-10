@@ -1,5 +1,4 @@
 import type { NextPage } from 'next';
-import Head from 'next/head';
 import { useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
@@ -25,13 +24,9 @@ const Search: NextPage = () => {
   }
 
   return (
-    <PageWrapper>
-      <Head>
-        <title>Интернет магазин почтовых открыток для посткроссинга DarlingDove</title>
-        <meta name="description" content='Чудесный магазин почтовых открыток! Здесь вы можете купить качественные почтовые открытки для посткроссинга и сопутствующие товары!' />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+    <PageWrapper
+      title='Поиск - Darlingdove'
+    >
       <div className='mb-6 px-2 py-4'>
         <div className='px-4 py-2 rounded-full border bg-white relative mx-auto' style={searchBarStyle}>
           <input

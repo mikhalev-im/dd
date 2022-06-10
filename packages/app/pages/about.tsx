@@ -1,18 +1,13 @@
 import type { NextPage } from 'next';
-import Head from 'next/head';
 import PageWrapper from '../modules/common/components/page-wrapper';
 
 const textWrapperStyle = { maxWidth: '900px' };
 
 const About: NextPage = () => {
   return (
-    <PageWrapper>
-      <Head>
-        <title>Интернет магазин почтовых открыток для посткроссинга DarlingDove</title>
-        <meta name="description" content='Чудесный магазин почтовых открыток! Здесь вы можете купить качественные почтовые открытки для посткроссинга и сопутствующие товары!' />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+    <PageWrapper
+      title='О нас - Darlingdove'
+    >
       <section className="px-2 py-4 mx-auto" style={textWrapperStyle}>
         <h1 className='mb-4 text-3xl font-semibold'>О нас</h1>
         <h2 className='mb-4 text-2xl'>Мы рады приветствовать Вас в нашем магазине!</h2>
@@ -26,18 +21,20 @@ const About: NextPage = () => {
         <h2 className='mb-4 text-2xl'>Наши контакты:</h2>
 
         <table>
-          <tr>
-            <td>Email:</td>
-            <td className='px-2'><a href="mailto:info@darlingdove.ru" className='hover:text-blue-700'>info@darlingdove.ru</a></td>
-          </tr>
-          <tr>
-            <td>VK:</td>
-            <td className='px-2'><a href="https://vk.com/darlingdove" className='hover:text-blue-700'>https://vk.com/darlingdove</a></td>
-          </tr>
-          <tr>
-            <td>Адерс:</td>
-            <td className='px-2'>Республика Коми, г. Сыктывкар</td>
-          </tr>
+          <tbody>
+            <tr>
+              <td>Email:</td>
+              <td className='px-2'><a href="mailto:info@darlingdove.ru" className='hover:text-blue-700'>info@darlingdove.ru</a></td>
+            </tr>
+            <tr>
+              <td>VK:</td>
+              <td className='px-2'><a href="https://vk.com/darlingdove" className='hover:text-blue-700'>https://vk.com/darlingdove</a></td>
+            </tr>
+            <tr>
+              <td>Адерс:</td>
+              <td className='px-2'>Республика Коми, г. Сыктывкар</td>
+            </tr>
+          </tbody>
         </table>
       </section>
     </PageWrapper>

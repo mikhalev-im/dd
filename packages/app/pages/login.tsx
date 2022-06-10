@@ -1,6 +1,5 @@
 import { FormEventHandler, useState } from 'react';
 import type { NextPage } from 'next';
-import Head from 'next/head';
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
@@ -93,13 +92,9 @@ const Login: NextPage = () => {
   }
 
   return (
-    <PageWrapper>
-      <Head>
-        <title>Интернет магазин почтовых открыток для посткроссинга DarlingDove</title>
-        <meta name="description" content='Чудесный магазин почтовых открыток! Здесь вы можете купить качественные почтовые открытки для посткроссинга и сопутствующие товары!' />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+    <PageWrapper
+      title='Вход - Darlingdove'
+    >
       <div className='mt-40 mb-40'>
         <form onSubmit={onSubmit} className='mx-auto w-80 rounded bg-white p-4'>
           <div className='text-center mb-4'>

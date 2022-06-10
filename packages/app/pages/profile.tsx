@@ -1,7 +1,6 @@
 import "@reach/dialog/styles.css";
 import type { NextPage } from 'next';
 import { FormEventHandler, useState } from 'react';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
@@ -11,6 +10,7 @@ import { HiOutlineX } from 'react-icons/hi';
 import { getUser, changePassword, logout, getOrders, GetOrdersResponse, User } from '../modules/common/api';
 import PageWrapper from '../modules/common/components/page-wrapper';
 import Pagination from '../modules/common/components/pagination';
+import { statusLabels } from "../modules/common/translations";
 
 interface FormTarget {
   password?: { value: string };
@@ -20,13 +20,6 @@ interface FormTarget {
 const fetchOrders = (offset: number) => async () => {
   return getOrders(offset);
 }
-
-const statusLabels = {
-  notPaid: 'Ожидает оплаты',
-  paid: 'Оплачен',
-  shipped: 'Отправлен',
-  done: 'Завершен'
-};
 
 const Profile: NextPage = () => {
   const router = useRouter();
@@ -106,7 +99,7 @@ const Profile: NextPage = () => {
                 const date = new Date(order.createdTime);
 
                 return (
-                  <tr key={order.shortId} className='border-b hover:cursor-pointer hover:bg-gray-50' onClick={() => console.log('click')}>
+                  <tr key={order.shortId} className='border-b hover:cursor-pointer hover:bg-gray-50' onClick={() => router.push(`/order/${order._id}`)}>
                     <td className='px-6 py-4 hidden lg:table-cell'>{order.shortId}</td>
                     <td className='px-6 py-4'>{date.toLocaleDateString('ru-RU')}</td>
                     <td className='sm:px-6 py-4 px-2'>{statusLabels[order.status]}</td>
@@ -125,13 +118,9 @@ const Profile: NextPage = () => {
   }
 
   return (
-    <PageWrapper>
-      <Head>
-        <title>Интернет магазин почтовых открыток для посткроссинга DarlingDove</title>
-        <meta name="description" content='Чудесный магазин почтовых открыток! Здесь вы можете купить качественные почтовые открытки для посткроссинга и сопутствующие товары!' />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+    <PageWrapper
+      title="Профиль - Darlingdove"
+    >
       <div className='px-2'>
         <h1 className='text-3xl font-semibold mb-4'>Личный кабинет</h1>
         <div className='grid md:grid-cols-4 gap-6'>

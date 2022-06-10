@@ -48,13 +48,10 @@ const ProductPage: NextPage = () => {
   }
 
   return (
-    <PageWrapper>
-      <Head>
-        <title>Классный продукт</title>
-        <meta name="description" content='TODO' />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+    <PageWrapper
+      title={product ? `${product.name} - Darlingdove` : 'Открытка - Darlingdove'}
+      description={product ? product.description : 'Открытка для посткроссинга'}
+    >
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-x-4 px-2 py-4 mb-4'>
         <div className='lg:col-span-2'>
           <Image

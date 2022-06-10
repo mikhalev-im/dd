@@ -195,7 +195,7 @@ interface OrderUser {
   postalCode: string;
 }
 
-interface Order {
+export interface Order {
   _id: string;
   items: OrderItem[];
   services: OrderService[];
@@ -217,5 +217,9 @@ export interface GetOrdersResponse {
 export const getOrders = async (offset: number = 0): Promise<GetOrdersResponse> => {
   return api.get('/orders', { query: { offset, sortBy: 'createdTime', order: 'desc' } });
 };
+
+export const getOrder = async (orderId: string): Promise<Order> => {
+  return api.get(`/orders/${orderId}`);
+}
 
 export default api;
