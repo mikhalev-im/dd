@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 
@@ -7,7 +8,7 @@ import Error from '../modules/common/components/error';
 import PageWrapper from '../modules/common/components/page-wrapper';
 import { cart, calcItems } from '../modules/carts';
 import ItemRow from '../modules/carts/components/item-row';
-import { useRouter } from 'next/router';
+import Summary from '../modules/carts/components/summary';
 
 const debounce = (func: Function, timeout = 500) => {
   let timer: NodeJS.Timeout;
@@ -18,6 +19,7 @@ const debounce = (func: Function, timeout = 500) => {
 };
 
 const emptyCart: Cart = {
+  _id: '',
   items: [],
   services: [],
 };
@@ -111,33 +113,17 @@ const Cart: NextPage = () => {
               </div>
             </div>
             <div className='order-1 lg:col-span-1 lg:order-2'>
-              <div className='bg-white rounded py-2 px-6'>
-                <div className='py-4 border-b'>
-                  <button
-                    disabled={!valid}
-                    title={valid ? '' : 'Недостаточно товара в наличии'}
-                    className='bg-green-500 hover:bg-green-600 text-white text-center py-4 w-full rounded font-semibold disabled:cursor-not-allowed disabled:bg-green-400'
-                    onClick={() => router.push('/checkout/address')}
-                  >
-                    Перейти к оформлению
-                  </button>
-                </div>
-                <div className='border-b py-4'>
-                  <p className='font-semibold mb-2 text-lg'>Корзина</p>
-                  <p className='flex justify-between'>
-                    <span>Товары ({count})</span>
-                    <span>{sum} ₽</span>
-                  </p>
-                  <p className='flex justify-between'>
-                    <span>Доставка</span>
-                    <span>{delivery} ₽</span>
-                  </p>
-                </div>
-                <div className='py-4 font-semibold flex justify-between text-lg'>
-                  <span>Общая стоимость</span>
-                  <span>{sum + delivery} ₽</span>
-                </div>
-              </div>
+              <Summary
+                btn={{
+                  disabled: !valid,
+                  tooltip: valid ? '' : 'Недостаточно товара в наличии',
+                  action: () => router.push('/checkout/address'),
+                  text: 'Перейти к оформлению',
+                }}
+                itemsCount={count}
+                itemsPrice={sum}
+                deliveryPrice={delivery}
+              />
             </div>
           </div>
         );

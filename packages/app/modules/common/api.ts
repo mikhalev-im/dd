@@ -70,12 +70,17 @@ export interface User {
   _id: string;
   firstName: string;
   lastName: string;
+  country: string;
   postalCode: string;
   address: string;
 }
 
 export const getUser = async (): Promise<User> => {
   return api.get('/users/me');
+}
+
+export const updateUser = async (userId: string, data: Partial<Omit<User, '_id'>>): Promise<User> => {
+  return api.patch(`/users/${userId}`, { body: data });
 }
 
 export const login = async (email: string, password: string): Promise<User> => {
@@ -159,6 +164,7 @@ interface CartService {
 }
 
 export interface Cart {
+  _id: string;
   items: CartItem[];
   services: CartService[];
 }
@@ -225,5 +231,18 @@ export const getOrders = async (offset: number = 0): Promise<GetOrdersResponse> 
 export const getOrder = async (orderId: string): Promise<Order> => {
   return api.get(`/orders/${orderId}`);
 }
+
+interface CreateOrderBody {
+  cartId: string;
+  comment?: string;
+}
+
+export const createOrder = async (data: CreateOrderBody): Promise<Order> => {
+  return api.post('/orders', { body: data });
+};
+
+export const getOrderPaymentUrl = async (orderId: string) => {
+  return api.post(`/orders/${orderId}/pay`, {});
+};
 
 export default api;

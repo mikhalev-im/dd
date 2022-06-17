@@ -5,6 +5,7 @@ import get from './get';
 import create from './create';
 import update from './update';
 import remove from './delete';
+import pay from './pay';
 
 export default async (fastify: FastifyInstance) => {
   list(fastify);
@@ -12,4 +13,5 @@ export default async (fastify: FastifyInstance) => {
   create(fastify);
   update(fastify);
   remove(fastify);
+  pay(fastify);
 };

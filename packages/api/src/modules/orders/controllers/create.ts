@@ -79,7 +79,7 @@ export default (fastify: FastifyInstance) => {
         comment,
         promocodes: cart.promocodes,
         user: {
-          _id: user._id,
+          user: user._id,
           firstName: user.firstName,
           lastName: user.lastName,
           country: user.country,

@@ -1,27 +1,60 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
+import { FormEventHandler } from 'react';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 
-import { Cart, getCart, getUser, User } from '../../modules/common/api';
+import { Cart, getCart, getUser, updateUser, User } from '../../modules/common/api';
 import PageWrapper from '../../modules/common/components/page-wrapper';
+
+interface FormTarget {
+  firstName?: { value: string };
+  lastName?: { value: string };
+  country?: { value: string };
+  postalCode?: { value: string };
+  address?: { value: string };
+}
 
 const CheckoutAddress: NextPage = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const userQuery = useQuery<User, Error>('user', getUser, { retry: false });
   const cartQuery = useQuery<Cart, Error>('cart', getCart, { retry: false });
+
+  const userMutation = useMutation((data: User) => {
+    const { _id, ...rest } = data;
+    return updateUser(_id, rest);
+  }, {
+    onSuccess: (data) => {
+      queryClient.setQueryData('user', data);
+      router.push('/checkout/confirm');
+    },
+    onError: () => {
+      toast.error('Что-то пошло не так!');
+    },
+  });
 
   if (userQuery.status === 'error') {
     router.replace('/login');
     return null;
   }
 
-  const onSubmit = (e) => {
+  const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    // save user
-    // redirect to order page
-    console.log('HeReH');
+    const target = e.target as typeof e.target & FormTarget;
+
+    const data = {
+      _id: userQuery.data?._id || '',
+      firstName: target.firstName?.value || '',
+      lastName: target.lastName?.value || '',
+      country: target.country?.value || '',
+      postalCode: target.postalCode?.value || '',
+      address: target.address?.value || '',
+    };
+
+    userMutation.mutate(data);
   };
 
   const { sum, qty } = (cartQuery.data?.items || []).reduce((result, item) => {

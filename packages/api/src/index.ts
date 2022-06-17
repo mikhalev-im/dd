@@ -50,7 +50,10 @@ fastify.register(fastifyEnv, {
       BASE_URL: {
         type: 'string',
         default: 'https://darlingdove.ru',
-      }
+      },
+      YANDEX_WALLET: {
+        type: 'string',
+      },
     }
   },
 });
