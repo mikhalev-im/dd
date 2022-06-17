@@ -15,12 +15,17 @@ const CheckoutConfirm: NextPage = () => {
   const userQuery = useQuery<User, Error>('user', getUser, { retry: false });
   const cartQuery = useQuery<Cart, Error>('cart', getCart, { retry: false });
 
+  if (userQuery.status === 'error') {
+    router.replace('/login');
+    return null;
+  }
+
   const onPay = async () => {
     try {
       // create order
       const order = await createOrder({ cartId: cartQuery.data?._id || '' });
       // redirect to the payment gateway
-      const url = await getOrderPaymentUrl(order._id);
+      const { url } = await getOrderPaymentUrl(order._id);
       router.push(url);
     }
     catch (err) {

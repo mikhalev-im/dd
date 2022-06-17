@@ -241,7 +241,7 @@ export const createOrder = async (data: CreateOrderBody): Promise<Order> => {
   return api.post('/orders', { body: data });
 };
 
-export const getOrderPaymentUrl = async (orderId: string) => {
+export const getOrderPaymentUrl = async (orderId: string): Promise<{ url: string }> => {
   return api.post(`/orders/${orderId}/pay`, {});
 };
 

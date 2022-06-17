@@ -2,11 +2,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
+import { toast } from 'react-toastify';
 
 import PageWrapper from "../../modules/common/components/page-wrapper";
-import { getOrder, Order } from '../../modules/common/api';
+import { getOrder, getOrderPaymentUrl, Order } from '../../modules/common/api';
 import Error from '../../modules/common/components/error';
-import { statusLabels } from '../../modules/common/translations';
+import Summary from '../../modules/carts/components/summary';
 
 const fetchOrder = (ready: boolean, orderId: string) => async () => {
   if (!ready) return;
@@ -28,6 +29,17 @@ const OrderPage = () => {
 
   if (!data) {
     return (<div>No data</div>)
+  }
+
+  const onPay = async () => {
+    try {
+      // redirect to the payment gateway
+      const { url } = await getOrderPaymentUrl(data._id);
+      router.push(url);
+    }
+    catch (err) {
+      toast.error('Что-то пошло не так!');
+    }
   }
 
   let sum = 0;
@@ -77,60 +89,22 @@ const OrderPage = () => {
         </div>
       </div>
       <div className='order-1 lg:col-span-1 lg:order-2'>
-        <div className='bg-white rounded py-2 px-6'>
-          {data.status === 'notPaid' && (
-            <div className='py-4 border-b'>
-              <button className='bg-green-500 hover:bg-green-600 text-white text-center py-4 w-full rounded font-semibold'>
-                Оплатить
-              </button>
-            </div>
-          )}
-          <div className='border-b py-4'>
-            <p className='font-semibold mb-2 text-lg'>Детали</p>
-            <p className='flex justify-between'>
-              <span>ID</span>
-              <span>{data.shortId}</span>
-            </p>
-            <p className='flex justify-between'>
-              <span>Дата заказа</span>
-              <span>{new Date(data.createdTime).toLocaleDateString('ru-RU')}</span>
-            </p>
-            <p className='flex justify-between'>
-              <span>Статус</span>
-              <span>{statusLabels[data.status]}</span>
-            </p>
-            {data.trackingNumber && (
-              <p className='flex justify-between'>
-                <span>Трек номер</span>
-                <span>{data.trackingNumber}</span>
-              </p>
-            )}
-          </div>
-          <div className='border-b py-4'>
-            <p className='font-semibold mb-2 text-lg'>Доставка</p>
-            <p className='flex justify-between'>
-              <span>{`${data.user.firstName} ${data.user.lastName}`}</span>
-            </p>
-            <p className='flex justify-between'>
-              <span>{`${data.user.postalCode}, ${data.user.country}, ${data.user.address}`}</span>
-            </p>
-          </div>
-          <div className='border-b py-4'>
-            <p className='font-semibold mb-2 text-lg'>Всего</p>
-            <p className='flex justify-between'>
-              <span>Товары ({count})</span>
-              <span>{sum} ₽</span>
-            </p>
-            <p className='flex justify-between'>
-              <span>Доставка</span>
-              <span>{delivery} ₽</span>
-            </p>
-          </div>
-          <div className='py-4 font-semibold flex justify-between text-lg'>
-            <span>Общая стоимость</span>
-            <span>{sum + delivery} ₽</span>
-          </div>
-        </div>
+        <Summary
+          btn={data.status === 'notPaid'
+            ? { text: 'Оплатить', action: onPay }
+            : undefined
+          }
+          details={{
+            shortId: data.shortId,
+            createdTime: data.createdTime,
+            status: data.status,
+            trackingNumber: data.trackingNumber,
+          }}
+          user={data.user}
+          itemsCount={count}
+          itemsPrice={sum}
+          deliveryPrice={delivery}
+        />
       </div>
     </div>
   );

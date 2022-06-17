@@ -3,6 +3,7 @@ import fastifyEnv from 'fastify-env';
 import fastifyCookie from 'fastify-cookie';
 import fastifyJwt from 'fastify-jwt';
 import fastifySensible from 'fastify-sensible';
+import fastifyFormbody from '@fastify/formbody';
 
 import mailer from './modules/common/plugins/mailer';
 import mongoose from './modules/common/plugins/mongoose';
@@ -54,10 +55,14 @@ fastify.register(fastifyEnv, {
       YANDEX_WALLET: {
         type: 'string',
       },
+      YANDEX_PAYMENT_NOTIFICATION_SECRET: {
+        type: 'string',
+      }
     }
   },
 });
 fastify.register(fastifySensible);
+fastify.register(fastifyFormbody);
 fastify.register(fastifyCookie);
 fastify.register(fastifyJwt, (f) => ({
   secret: f.config.JWT_SECRET,

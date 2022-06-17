@@ -14,7 +14,7 @@ interface SummaryProps {
     status?: 'notPaid' | 'paid' | 'shipped' | 'done';
     trackingNumber?: string;
   }
-  user?: User;
+  user?: Omit<User, '_id'>;
   itemsCount: number;
   itemsPrice: number;
   deliveryPrice: number;

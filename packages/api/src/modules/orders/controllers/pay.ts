@@ -16,6 +16,15 @@ interface Context {
 export default (fastify: FastifyInstance) => {
   fastify.post<Context>('/orders/:id/pay', {
     schema: {
+      params: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+            pattern: '^[0-9a-fA-F]{24}$',
+          },
+        },
+      },
       response: {
         201: {
           type: 'object',
