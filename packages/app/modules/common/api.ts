@@ -68,6 +68,10 @@ const api = {
 
 export interface User {
   _id: string;
+  firstName: string;
+  lastName: string;
+  postalCode: string;
+  address: string;
 }
 
 export const getUser = async (): Promise<User> => {

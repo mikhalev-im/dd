@@ -1,6 +1,5 @@
 import type { NextPage } from 'next';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import Head from 'next/head';
 import { toast } from 'react-toastify';
 
 import { getCart, removeCartItem, changeCartItemQty, Cart } from '../modules/common/api';
@@ -8,6 +7,7 @@ import Error from '../modules/common/components/error';
 import PageWrapper from '../modules/common/components/page-wrapper';
 import { cart, calcItems } from '../modules/carts';
 import ItemRow from '../modules/carts/components/item-row';
+import { useRouter } from 'next/router';
 
 const debounce = (func: Function, timeout = 500) => {
   let timer: NodeJS.Timeout;
@@ -36,6 +36,7 @@ const changeQty = async ({ productId, qty }: { productId: string, qty: number })
 };
 
 const Cart: NextPage = () => {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const removeItemMutation = useMutation(removeCartItem, {
     onSuccess: data => {
@@ -76,38 +77,48 @@ const Cart: NextPage = () => {
       else {
         let sum = 0;
         let count = 0;
+        let valid = true;
         const delivery = data.services.reduce((s, item) => s + item.price, 0);
         content = (
           <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
             <div className='order-2 lg:col-span-2 lg:order-1'>
               <div className='bg-white rounded mb-8 px-4 py-2'>
                 <table className='w-full'>
-                  {data.items.map((item) => {
-                    count += item.qty;
-                    sum += item.qty * item.product.price;
+                  <tbody>
+                    {data.items.map((item) => {
+                      count += item.qty;
+                      sum += item.qty * item.product.price;
 
-                    const debouncedUpdate = debounce((value: number) => changeItemQtyMutation.mutate({
-                      productId: item.product._id,
-                      qty: value
-                    }));
+                      const debouncedUpdate = debounce((value: number) => changeItemQtyMutation.mutate({
+                        productId: item.product._id,
+                        qty: value
+                      }));
 
-                    return (
-                      <ItemRow
-                        key={item.product._id}
-                        product={item.product}
-                        qty={item.qty}
-                        onDelete={() => removeItemMutation.mutate(item.product._id)}
-                        onChange={(value: number) => debouncedUpdate(value)}
-                      />
-                    );
-                  })}
+                      if (item.product.qty < item.qty) valid = false;
+
+                      return (
+                        <ItemRow
+                          key={item.product._id}
+                          product={item.product}
+                          qty={item.qty}
+                          onDelete={() => removeItemMutation.mutate(item.product._id)}
+                          onChange={(value: number) => debouncedUpdate(value)}
+                        />
+                      );
+                    })}
+                  </tbody>
                 </table>
               </div>
             </div>
             <div className='order-1 lg:col-span-1 lg:order-2'>
               <div className='bg-white rounded py-2 px-6'>
                 <div className='py-4 border-b'>
-                  <button className='bg-green-500 hover:bg-green-600 text-white text-center py-4 w-full rounded font-semibold'>
+                  <button
+                    disabled={!valid}
+                    title={valid ? '' : 'Недостаточно товара в наличии'}
+                    className='bg-green-500 hover:bg-green-600 text-white text-center py-4 w-full rounded font-semibold disabled:cursor-not-allowed disabled:bg-green-400'
+                    onClick={() => router.push('/checkout/address')}
+                  >
                     Перейти к оформлению
                   </button>
                 </div>
