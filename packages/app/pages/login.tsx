@@ -25,8 +25,9 @@ const Login: NextPage = () => {
   const [tab, setTab] = useState<'login' | 'register' | 'restore'>('login');
   const { status } = useQuery<User, Error>('user', getUser, { retry: false });
 
+  const redirect = router.query.redirect ? router.query.redirect as string : '/profile';
+
   if (status === 'loading') {
-    // TODO: add HEAD
     return (
       <PageWrapper
         title='Вход - Darlingdove'
@@ -46,7 +47,7 @@ const Login: NextPage = () => {
   }
 
   if (status === 'success') {
-    router.replace('/profile');
+    router.replace(redirect);
     return null;
   }
 
@@ -82,7 +83,7 @@ const Login: NextPage = () => {
         toast.error('Ошибка! Возможно пользователь не существует');
         return;
       }
-      router.replace('/profile');
+      router.replace(redirect);
       return;
     }
 
@@ -100,7 +101,7 @@ const Login: NextPage = () => {
       return;
     }
 
-    router.replace('/profile');
+    router.replace(redirect);
   }
 
   return (

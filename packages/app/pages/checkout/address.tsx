@@ -36,7 +36,7 @@ const CheckoutAddress: NextPage = () => {
   });
 
   if (userQuery.status === 'error') {
-    router.replace('/login');
+    router.replace('/login?redirect=/checkout/address');
     return null;
   }
 
