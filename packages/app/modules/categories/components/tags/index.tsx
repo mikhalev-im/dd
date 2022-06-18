@@ -20,6 +20,7 @@ const TagsFilter = ({ value, error, options, onChange }: TagsFilterProps) => {
   return (
     <div>
       <h4 className='py-1 mb-1 font-semibold'>Категории</h4>
+      {!options?.length && (<p>Нет категорий</p>)}
       <ul className='overflow-y-auto h-96 scrollbar' >
         {(options || []).map(tag => (
           <li key={tag}>

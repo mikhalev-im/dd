@@ -19,16 +19,44 @@ const OrderPage = () => {
   const orderId = router.query.order as string;
   const { status, data, error } = useQuery<Order | undefined, Error>(['order', orderId], fetchOrder(router.isReady, orderId));
 
-  if (status === 'loading') {
-    return (<div>Loading...</div>)
+  if (!router.isReady || status === 'loading') {
+    return (
+      <PageWrapper
+        title='Заказ - Darlingdove'
+      >
+        <div className='px-2'>
+          <h1 className='text-3xl font-semibold mb-4'>Заказ</h1>
+          <div>Загрузка...</div>
+        </div>
+      </PageWrapper>
+    );
   }
 
   if (status === 'error') {
-    return (<Error error={error} />);
+    return (
+      <PageWrapper
+        title='Заказ - Darlingdove'
+      >
+        <div className='px-2'>
+          <h1 className='text-3xl font-semibold mb-4'>Заказ</h1>
+          <Error error={error} />
+        </div>
+      </PageWrapper>
+    );
   }
 
   if (!data) {
-    return (<div>No data</div>)
+    return (
+      <PageWrapper
+        title='Заказ - Darlingdove'
+      >
+        <div className='px-2'>
+          <h1 className='text-3xl font-semibold mb-4'>Заказ</h1>
+          <div>Заказ не найден!</div>
+        </div>
+      </PageWrapper>
+    );
+
   }
 
   const onPay = async () => {

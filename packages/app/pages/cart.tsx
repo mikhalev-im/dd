@@ -64,7 +64,6 @@ const Cart: NextPage = () => {
   let content;
   switch (status) {
     case 'loading':
-      // todo: table placeholder
       content = (<p>Загрузка...</p>);
       break;
     case 'error':

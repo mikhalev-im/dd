@@ -20,6 +20,19 @@ const CheckoutConfirm: NextPage = () => {
     return null;
   }
 
+  if (cartQuery.status === 'loading') {
+    return (
+      <PageWrapper
+        title='Заказ - Darlingdove'
+      >
+        <div className='mb-6 px-2 py-4'>
+          <h1 className='text-3xl font-semibold mb-4'>Подтверждение заказа</h1>
+          <div>Загрузка...</div>
+        </div>
+      </PageWrapper>
+    );
+  }
+
   const onPay = async () => {
     try {
       // create order

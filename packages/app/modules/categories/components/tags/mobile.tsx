@@ -51,7 +51,7 @@ const TagsFilterMobile = ({ value, options, error, onChange }: TagsFilterMobileP
           <a className={`hover:text-blue-700 cursor-pointer text-sm ${value.length ? '' : 'hidden'}`} onClick={() => onChange([])} >Очистить</a>
         </p>
         <div className='absolute left-0 right-0 bottom-0 p-2 '>
-          <button className='w-full rounded py-2 text-white bg-gray-700' onClick={() => setCategoriesOpen(false)}>Закрыть</button>
+          <button className='w-full rounded py-2 text-white bg-blue-500 hover:bg-blue-600' onClick={() => setCategoriesOpen(false)}>Закрыть</button>
         </div>
       </div>
     </div>

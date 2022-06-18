@@ -3,6 +3,7 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
+import ContentLoader from 'react-content-loader';
 
 import PageWrapper from '../modules/common/components/page-wrapper';
 import { getUser, login, register, restorePassword, User } from '../modules/common/api';
@@ -27,8 +28,19 @@ const Login: NextPage = () => {
   if (status === 'loading') {
     // TODO: add HEAD
     return (
-      <PageWrapper>
-        <p>Загрузка...</p>
+      <PageWrapper
+        title='Вход - Darlingdove'
+      >
+        <div className='mt-40 mb-40'>
+          <ContentLoader
+            viewBox="0 0 100 88"
+            backgroundColor="#e5e7eb"
+            foregroundColor="#d1d5db"
+            className='mx-auto w-80'
+          >
+            <rect x="0" y="0" rx="2" ry="2" width="100" height="88" />
+          </ContentLoader>
+        </div>
       </PageWrapper>
     );
   }
