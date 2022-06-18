@@ -80,7 +80,7 @@ const CategoryPage = () => {
               <Select options={options} value={sort} onChange={onSortChange} />
               <TagsFilterMobile value={tags} onChange={onTagsFilterChange} options={tagsData.data} />
             </div>
-            <ProductList cacheKey='category-products' filters={{ limit: pageSize, offset, sortBy, order, tags }} pagination={{ pageSize, onChange: onPageChange }} narrow />
+            <ProductList cacheKey='category-products' filters={{ limit: pageSize, offset, sortBy, order, tags, inStock: true }} pagination={{ pageSize, onChange: onPageChange }} narrow />
           </div>
         </div>
       </div>

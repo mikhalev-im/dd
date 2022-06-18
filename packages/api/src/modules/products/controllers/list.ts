@@ -9,6 +9,7 @@ interface Query {
   order: string;
   tags?: string | string[];
   search?: string;
+  inStock: boolean;
 }
 
 interface Context {
@@ -62,6 +63,9 @@ export default (fastify: FastifyInstance) => {
           search: {
             type: 'string',
           },
+          inStock: {
+            type: 'boolean'
+          }
         },
       },
       response: {
@@ -80,7 +84,8 @@ export default (fastify: FastifyInstance) => {
       },
     },
     handler: async (request) => {
-      const { limit, offset, sortBy, order, tags, search } = request.query;
+      const { limit, offset, sortBy, order, tags, search, inStock } = request.query;
+
       const Product = fastify.mongoose.model<Product>('Product');
 
       const filters: FilterQuery<Product> = {};
@@ -91,6 +96,10 @@ export default (fastify: FastifyInstance) => {
       if (search) {
         const escapedRegExp = new RegExp(escapeStringRegexp(search), 'i');
         filters.$or = [{ name: escapedRegExp }, { sku: escapedRegExp }];
+      }
+
+      if (inStock) {
+        filters.qty = { $gte: 1 };
       }
 
       const total = await Product.countDocuments(filters);

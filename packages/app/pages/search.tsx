@@ -46,7 +46,7 @@ const Search: NextPage = () => {
         </div>
       </div>
 
-      <>{searchPhrase && <ProductList cacheKey='products-search' filters={{ offset, limit: pageSize, search: searchPhrase }} pagination={{ pageSize, onChange: onPageChange }} />}</>
+      <>{searchPhrase && <ProductList cacheKey='products-search' filters={{ offset, limit: pageSize, search: searchPhrase, inStock: true }} pagination={{ pageSize, onChange: onPageChange }} />}</>
 
     </PageWrapper>
   )

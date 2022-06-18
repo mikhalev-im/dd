@@ -19,7 +19,7 @@ const api = {
     const querystr = Object.entries(query).reduce((result, [key, value]) => {
       if (Array.isArray(value)) {
         value.forEach(value => result.append(key, value));
-      } else if (typeof value == 'string' || typeof value == 'number') {
+      } else if (typeof value == 'string' || typeof value == 'number' || typeof value == 'boolean') {
         result.append(key, value.toString());
       }
 
@@ -114,6 +114,7 @@ export interface ProductsFilters {
   limit?: number;
   tags?: string[];
   search?: string;
+  inStock?: boolean;
 }
 
 interface ProductImage {

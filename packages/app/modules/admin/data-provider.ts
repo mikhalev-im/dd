@@ -22,16 +22,22 @@ const DEFAULT_SORT_BY_RESOURCE: { [key: string]: string } = {
   users: 'createdAt',
 };
 
+const SUPPORTED_SORT_FIELD: { [key: string]: string[] } = {
+  products: ['createdTime', 'name', 'price', 'ordersCount'],
+};
+
 const { fetchJson } = fetchUtils;
 
 const dataProvider: DataProvider = {
   async getList(resource: string, params: GetListParams) {
-    const { order } = params.sort;
+    const { order, field } = params.sort;
     const { page, perPage } = params.pagination;
 
     const offset = perPage * (page - 1);
     const query = new URLSearchParams({
-      sortBy: DEFAULT_SORT_BY_RESOURCE[resource] || 'createdTime',
+      sortBy: SUPPORTED_SORT_FIELD[resource]?.includes(field)
+        ? field
+        : DEFAULT_SORT_BY_RESOURCE[resource] || 'createdTime',
       order: order.toLowerCase(),
       offset: offset.toString(),
       limit: perPage.toString(),
