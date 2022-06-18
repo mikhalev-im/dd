@@ -26,8 +26,6 @@ const api = {
       return result;
     }, new URLSearchParams());
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
     const url = `/api${path}?${querystr.toString()}`;
     const options: RequestInit = { method };
 

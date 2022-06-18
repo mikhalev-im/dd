@@ -1,16 +1,12 @@
 import { ChangeEvent } from 'react';
-import Error from '../../../common/components/error';
 
 interface TagsFilterProps {
   value: string[];
-  error?: Error | null;
   options?: string[];
   onChange: (value: string[]) => void;
 }
 
-const TagsFilter = ({ value, error, options, onChange }: TagsFilterProps) => {
-  if (error) return <Error error={error} />;
-
+const TagsFilter = ({ value, options, onChange }: TagsFilterProps) => {
   const handler = (e: ChangeEvent<HTMLInputElement>) => {
     const set = new Set(value);
     e.target.checked ? set.add(e.target.name) : set.delete(e.target.name);
