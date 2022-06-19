@@ -134,7 +134,7 @@ const ProductPage: NextPage = () => {
 
       <div>
         <h2 className='px-2 text-2xl mb-4'>Вам также может понравиться:</h2>
-        <ProductList cacheKey='related-products' filters={{ limit: 4, sortBy: 'random' }} />
+        <ProductList cacheKey={`related-products-${sku}`} filters={{ limit: 4, sortBy: 'random' }} />
       </div>
     </PageWrapper>
   );

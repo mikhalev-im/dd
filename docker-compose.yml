@@ -1,11 +1,44 @@
-version: '3'
+version: '3.8'
 services:
-  // dependecies from top to bottom
   mongo:
-    ///
+    image: mongo:5.0.9
+    restart: always
+    volumes:
+      - dbdata:/data/db
+
   api:
-    ///
+    depends_on:
+      - mongo
+    build:
+      context: ./packages/api
+    restart: always
+
   app:
-    ///
-  traefic:
-    ///
+    depends_on:
+      - api
+    build:
+      context: ./packages/app
+    restart: always
+
+  nginx:
+    image: umputun/nginx-le:latest
+    restart: always
+    logging:
+      driver: json-file
+      options:
+          max-size: "10m"
+          max-file: "5"
+    volumes:
+        - ./nginx/ssl:/etc/nginx/ssl
+        - ./nginx/config/app.conf:/etc/nginx/app.conf
+    ports:
+        - "80:80"
+        - "443:443"
+    environment:
+        - TZ=Europe/Moscow
+        - LETSENCRYPT=true
+        - LE_EMAIL=info@darlingdove.ru
+        - LE_FQDN=darlingdove.ru
+
+volumes:
+  dbdata:
