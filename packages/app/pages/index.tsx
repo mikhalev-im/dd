@@ -19,7 +19,7 @@ const Home: NextPage = () => {
       <ProductList cacheKey='main-products-new' title='Новинки' filters={newProductsFilters} />
 
       <section className='mb-4 px-2'>
-        <Image src='https://storage.yandexcloud.net/darlingdove/greeting.jpg' alt="greeting banner" width={1900} height={550} className='rounded-2xl' />
+        <Image src='https://storage.yandexcloud.net/darlingdove/shipping.jpg' alt="greeting banner" width={1900} height={550} className='rounded-2xl' />
       </section>
 
       <ProductList cacheKey='main-products-popular' title='Популярное' filters={popularProductsFilters} />
