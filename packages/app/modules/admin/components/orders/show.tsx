@@ -7,7 +7,6 @@ const styles = {
   container: {
     width: "800px",
     margin: "0 auto",
-    padding: '32px',
   },
   table: {
     borderCollapse: "collapse",
@@ -230,7 +229,7 @@ const TopActions = ({ basePath, data, onPrint }: { basePath?: string, data?: Rec
 export const OrderShow = (props: any) => {
   const contentRef = useRef(null);
   const handlePrint = useReactToPrint({
-    content: () => contentRef.current
+    content: () => contentRef.current,
   });
 
   return (
