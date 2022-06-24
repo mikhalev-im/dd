@@ -1,5 +1,8 @@
 /node_modules
 /nginx/ssl/dhparams.pem
+/nginx/ssl/le-chain-crt.pem
+/nginx/ssl/le-crt.pem
+/nginx/ssl/le-key.pem
 
 # internal notes
 /internal
