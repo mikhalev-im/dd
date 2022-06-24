@@ -1,4 +1,5 @@
 /node_modules
+/nginx/ssl/dhparams.pem
 
 # internal notes
 /internal

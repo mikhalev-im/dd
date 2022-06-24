@@ -36,7 +36,7 @@ export default (fastify: FastifyInstance) => {
       // check hash
       if (!body.sha1_hash) return;
 
-      const hashStr = `${body.notification_type}&${body.operation_id}&${body.amount}&${body.currency}&${body.datetime}&${body.sender}&${body.codepro}&${process.env.YANDEX_PAYMENT_NOTIFICATION_SECRET}&${body.label}`;
+      const hashStr = `${body.notification_type}&${body.operation_id}&${body.amount}&${body.currency}&${body.datetime}&${body.sender}&${body.codepro}&${fastify.config.YANDEX_PAYMENT_NOTIFICATION_SECRET}&${body.label}`;
       const myHash = createHash('sha1');
       myHash.update(hashStr);
 

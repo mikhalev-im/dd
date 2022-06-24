@@ -14,6 +14,8 @@ declare module 'fastify' {
       PASSWORD_SALT_ROUNDS: number;
       MAIL_PASSWORD: string;
       BASE_URL: string;
+      YANDEX_WALLET: string;
+      YANDEX_PAYMENT_NOTIFICATION_SECRET: string;
     },
     mailer: Transporter;
   }

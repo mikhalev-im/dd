@@ -52,10 +52,10 @@ export default (fastify: FastifyInstance) => {
       const data = stringify({
         sum: order.total,
         label: order._id.toString(),
-        receiver: process.env.YANDEX_WALLET,
+        receiver: fastify.config.YANDEX_WALLET,
         'quickpay-form': 'shop',
         paymentType: 'AC',
-        successURL: `${process.env.BASE_URL}/profile`,
+        successURL: `${fastify.config.BASE_URL}/profile`,
         targets: `DarlingDove Заказ №${order.shortId}`,
       });
 

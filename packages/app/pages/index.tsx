@@ -6,8 +6,8 @@ import { ProductsFilters } from '../modules/common/api';
 import PageWrapper from '../modules/common/components/page-wrapper';
 import ProductList from '../modules/common/components/product-list';
 
-const newProductsFilters: ProductsFilters = { sortBy: 'createdTime', order: 'desc', limit: 8 };
-const popularProductsFilters: ProductsFilters = { sortBy: 'ordersCount', order: 'desc', limit: 8 };
+const newProductsFilters: ProductsFilters = { sortBy: 'createdTime', order: 'desc', limit: 8, inStock: true };
+const popularProductsFilters: ProductsFilters = { sortBy: 'ordersCount', order: 'desc', limit: 8, inStock: true };
 
 const Home: NextPage = () => {
   return (
