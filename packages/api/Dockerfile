@@ -9,13 +9,17 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install production dependencies.
-RUN npm i --production
+RUN npm install
 
 # Copy local code to the container image.
 COPY . .
 
 # Build the app
 RUN npm run build
+
+EXPOSE 8080
+
+ENV PORT 8080
 
 # Run the web service on container startup.
 CMD [ "npm", "start" ]

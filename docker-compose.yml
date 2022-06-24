@@ -12,6 +12,8 @@ services:
     build:
       context: ./packages/api
     restart: always
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/dd
 
   app:
     depends_on:
@@ -21,6 +23,9 @@ services:
     restart: always
 
   nginx:
+    depends_on:
+      - app
+      - api
     image: umputun/nginx-le:latest
     restart: always
     logging:
@@ -30,13 +35,13 @@ services:
           max-file: "5"
     volumes:
         - ./nginx/ssl:/etc/nginx/ssl
-        - ./nginx/config/app.conf:/etc/nginx/app.conf
+        - ./nginx/config/app.conf:/etc/nginx/service.conf
     ports:
         - "80:80"
         - "443:443"
     environment:
         - TZ=Europe/Moscow
-        - LETSENCRYPT=true
+        - LETSENCRYPT=false
         - LE_EMAIL=info@darlingdove.ru
         - LE_FQDN=darlingdove.ru
 
