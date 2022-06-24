@@ -1,5 +1,5 @@
 import { Admin, Resource } from 'react-admin';
-import { HiLogin, HiShoppingCart, HiUser, HiTag, HiTruck } from 'react-icons/hi';
+import { HiLogin, HiShoppingCart, HiUser, HiTag, HiCube } from 'react-icons/hi';
 
 import { HomeView } from './components/home';
 
@@ -22,9 +22,9 @@ import authProvider from './auth-provider';
 
 const App = () => (
   <Admin disableTelemetry title='DarlingDove Admin' authProvider={authProvider} dataProvider={dataProvider}>
-    <Resource name="users" icon={HiUser} list={UserList} create={UserCreate} edit={UserEdit} />
+    <Resource name="orders" icon={HiCube} list={OrderList} show={OrderShow} edit={OrderEdit} />
     <Resource name="products" icon={HiTag} list={ProductList} create={ProductCreate} edit={ProductEdit} />
-    <Resource name="orders" icon={HiTruck} list={OrderList} show={OrderShow} edit={OrderEdit} />
+    <Resource name="users" icon={HiUser} list={UserList} create={UserCreate} edit={UserEdit} />
     <Resource name="carts" icon={HiShoppingCart} list={CartList} />
     <Resource name="home" options={{ label: 'Back to website' }} icon={HiLogin} list={HomeView} />
   </Admin>
