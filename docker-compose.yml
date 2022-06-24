@@ -41,7 +41,7 @@ services:
         - "443:443"
     environment:
         - TZ=Europe/Moscow
-        - LETSENCRYPT=false
+        - LETSENCRYPT=true
         - LE_EMAIL=info@darlingdove.ru
         - LE_FQDN=darlingdove.ru
 
