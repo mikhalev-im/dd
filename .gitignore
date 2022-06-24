@@ -1,4 +1,7 @@
+# dependencies
 /node_modules
+
+# ssl certs
 /nginx/ssl/dhparams.pem
 /nginx/ssl/le-chain-crt.pem
 /nginx/ssl/le-crt.pem
