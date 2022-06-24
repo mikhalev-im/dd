@@ -1,10 +1,9 @@
 import { Schema, Types } from "mongoose";
 
 export interface ProductImage {
-  type: 'card' | 'big';
-  width: number;
-  height: number;
-  url: string;
+  sm: string; // 260 x 187
+  md: string; // 530 x 380
+  lg: string; // 1400 x 1000
 }
 
 export interface Product {
@@ -15,7 +14,7 @@ export interface Product {
   qty: number;
   price: number;
   oldPrice: number;
-  images: ProductImage[];
+  images: ProductImage;
   ordersCount: number;
   tags: string[];
   category: string;
@@ -54,25 +53,16 @@ export const ProductJson = {
       minimum: 0,
     },
     images: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          type: {
-            type: 'string',
-            enum: ['card', 'big'],
-          },
-          width: {
-            type: 'integer',
-            minimum: 0,
-          },
-          height: {
-            type: 'integer',
-            minimum: 0,
-          },
-          url: {
-            type: 'string',
-          },
+      type: 'object',
+      properties: {
+        sm: {
+          type: 'string',
+        },
+        md: {
+          type: 'string',
+        },
+        lg: {
+          type: 'string',
         },
       },
     },
@@ -119,23 +109,11 @@ const Product = new Schema<Product>({
     required: false,
     min: 0,
   },
-  images: [
-    {
-      type: {
-        type: String,
-        enum: ['card', 'big'],
-      },
-      width: {
-        type: Number,
-      },
-      height: {
-        type: Number,
-      },
-      url: {
-        type: String,
-      },
-    },
-  ],
+  images: {
+    sm: String,
+    md: String,
+    lg: String,
+  },
   ordersCount: {
     type: Number,
     required: true,

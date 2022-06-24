@@ -25,7 +25,6 @@ export interface OrderPromocode {
   minSum: number;
 }
 
-// TODO: migration _id -> user
 export interface OrderUser {
   user: Types.ObjectId;
   firstName: string;

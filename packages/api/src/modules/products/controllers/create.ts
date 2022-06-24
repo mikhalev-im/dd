@@ -8,7 +8,7 @@ interface Context {
     qty: number;
     price: number;
     oldPrice?: number;
-    images: ProductImage[];
+    images: ProductImage;
     tags: string[];
     category: string;
     description?: string;
@@ -41,25 +41,20 @@ export default (fastify: FastifyInstance) => {
             type: 'integer',
           },
           images: {
-            type: 'array',
-            items: {
-              type: 'object',
-              required: ['type', 'width', 'height', 'url'],
-              properties: {
-                type: {
-                  type: 'string',
-                  enum: ['card', 'big'],
-                },
-                width: {
-                  type: 'integer',
-                },
-                height: {
-                  type: 'integer'
-                },
-                url: {
-                  type: 'string',
-                  format: 'url',
-                },
+            type: 'object',
+            required: ['sm', 'md', 'lg'],
+            properties: {
+              sm: {
+                type: 'string',
+                format: 'url',
+              },
+              md: {
+                type: 'string',
+                format: 'url',
+              },
+              lg: {
+                type: 'string',
+                format: 'url',
               },
             },
           },

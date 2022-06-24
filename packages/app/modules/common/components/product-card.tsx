@@ -11,15 +11,13 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const src = product.images.find(image => image.type === 'big')?.url || '';
-
   return (
     <div className=''>
       <div className='rounded flex border cursor-pointer'>
         <Link href={`/product/${product.sku}`} >
           <a style={{ width: '100%' }}>
             <Image
-              src={src}
+              src={product.images.md}
               alt={product.description}
               width={700}
               height={500}

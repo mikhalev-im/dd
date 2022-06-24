@@ -14,14 +14,9 @@ export const ProductEdit = (props: any) => (
           <TextInput source="" />
         </SimpleFormIterator>
       </ArrayInput>
-      <ArrayInput source="images">
-        <SimpleFormIterator>
-          <TextInput source="type" />
-          <TextInput source="width" options={{ type: 'number' }} />
-          <TextInput source="height" options={{ type: 'number' }} />
-          <TextInput source="url" />
-        </SimpleFormIterator>
-      </ArrayInput>
+      <TextInput source="images.sm" required />
+      <TextInput source="images.md" required />
+      <TextInput source="images.lg" required />
     </SimpleForm>
   </Edit>
 );

@@ -81,13 +81,12 @@ const OrderPage = () => {
             {data.items.map((item) => {
               count += item.qty;
               sum += item.qty * item.product.price;
-              const src = item.product.images.find(i => i.type === 'big')?.url || '';
 
               return (
                 <tr key={item.product._id} className='border-b last:border-b-0'>
                   <td className='hidden md:table-cell w-48 py-2'>
                     <Image
-                      src={src}
+                      src={item.product.images.sm}
                       alt={item.product.description}
                       width={175}
                       height={125}

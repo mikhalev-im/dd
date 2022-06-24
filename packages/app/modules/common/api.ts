@@ -118,10 +118,9 @@ export interface ProductsFilters {
 }
 
 interface ProductImage {
-  width: number;
-  height: number;
-  type: 'card' | 'big';
-  url: string;
+  sm: string;
+  md: string;
+  lg: string;
 }
 
 export interface Product {
@@ -133,7 +132,7 @@ export interface Product {
   price: number;
   oldPrice?: number;
   tags: string[];
-  images: ProductImage[];
+  images: ProductImage;
   createdTime: string;
 }
 

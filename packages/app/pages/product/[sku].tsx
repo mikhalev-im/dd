@@ -29,12 +29,13 @@ const ProductPage: NextPage = () => {
   const [qty, setQty] = useState(1);
 
   const isLoading = !router.isReady || status === 'loading';
-  const { url: imgUrl } = product?.images.find(img => img.type === 'big') || { url: '' };
+  // TODO: use only lg image
+  const imageSrc = product?.images.lg || product?.images.md || '';
 
   const meta = {
     title: product ? `${product.name} - Darlingdove` : 'Открытка - Darlingdove',
     description: product ? product.description : 'Открытка для посткроссинга',
-    image: imgUrl,
+    image: imageSrc,
   };
 
   if (status === 'error') return (
@@ -64,7 +65,7 @@ const ProductPage: NextPage = () => {
             )
             : (
               <Image
-                src={imgUrl}
+                src={imageSrc}
                 width={1400}
                 height={1000}
                 alt={product?.description}

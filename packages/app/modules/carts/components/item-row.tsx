@@ -12,14 +12,13 @@ interface ItemRowProps {
 }
 
 const ItemRow = ({ product, qty, onDelete, onChange }: ItemRowProps) => {
-  const src = product.images.find(i => i.type === 'big')?.url || '';
   const notEnoughInStock = product.qty < qty;
 
   return (
     <tr className='border-b last:border-b-0'>
       <td className='hidden md:table-cell w-48 py-2'>
         <Image
-          src={src}
+          src={product.images.sm}
           alt={product.description}
           width={175}
           height={125}
