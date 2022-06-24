@@ -23,7 +23,7 @@ const DEFAULT_SORT_BY_RESOURCE: { [key: string]: string } = {
 };
 
 const SUPPORTED_SORT_FIELD: { [key: string]: string[] } = {
-  products: ['createdTime', 'name', 'price', 'ordersCount'],
+  products: ['createdTime', 'name', 'price', 'ordersCount', 'qty'],
 };
 
 const { fetchJson } = fetchUtils;

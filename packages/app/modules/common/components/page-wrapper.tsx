@@ -6,6 +6,7 @@ interface PageWrapperProps {
   title?: string;
   description?: string;
   schema?: string;
+  image?: string;
   children: ReactElement | ReactElement[];
 }
 
@@ -24,14 +25,28 @@ const defaults = {
   schema: JSON.stringify(schemaOrg),
 };
 
-const PageWrapper = ({ title, description, schema, children }: PageWrapperProps) => {
+const PageWrapper = ({ title, description, image, schema, children }: PageWrapperProps) => {
+  const meta = {
+    title: title || defaults.title,
+    description: description || defaults.description,
+    image: image || 'https://storage.yandexcloud.net/darlingdove/greeting.jpg',
+  };
+
   return (
     <div>
       <Head>
-        <title>{title || defaults.title}</title>
-        <meta name="description" content={description || defaults.description} />
+        <title>{meta.title}</title>
+        <meta name="description" content={meta.description} />
         <link rel="shortcut icon" href="https://storage.yandexcloud.net/darlingdove/fav.png" />
         <meta name="keywords" content="Купить почтовые открытки карточки почта посткроссинг postcrossing интернет магазин"></meta>
+
+        {/* opengraph */}
+        <meta property="og:title" content={meta.title} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={globalThis.location?.href} />
+        <meta property="og:image" content={meta.image} />
+
+        {/* schema.org */}
         <script type="application/ld+json">
           {schema || defaults.schema}
         </script>

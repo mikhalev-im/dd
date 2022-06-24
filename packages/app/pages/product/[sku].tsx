@@ -28,20 +28,20 @@ const ProductPage: NextPage = () => {
   const { status, error, data: product } = useQuery<Product | undefined, Error>(['product', sku], getProduct(router.isReady, sku));
   const [qty, setQty] = useState(1);
 
+  const isLoading = !router.isReady || status === 'loading';
+  const { url: imgUrl } = product?.images.find(img => img.type === 'big') || { url: '' };
+
   const meta = {
     title: product ? `${product.name} - Darlingdove` : 'Открытка - Darlingdove',
     description: product ? product.description : 'Открытка для посткроссинга',
+    image: imgUrl,
   };
-
-  const isLoading = !router.isReady || status === 'loading';
 
   if (status === 'error') return (
     <PageWrapper {...meta} >
       <div className='px-2'><ErrorCmp error={error} /></div>
     </PageWrapper>
   );
-
-  const { url: imgUrl } = product?.images.find(img => img.type === 'big') || { url: '' };
 
   const toCart = () => {
     if (!product) return;

@@ -39,7 +39,7 @@ export default (fastify: FastifyInstance) => {
           },
           sortBy: {
             type: 'string',
-            enum: ['createdTime', 'ordersCount', 'name', 'price', 'random'],
+            enum: ['createdTime', 'ordersCount', 'name', 'price', 'random', 'qty'],
             default: 'createdTime',
           },
           order: {

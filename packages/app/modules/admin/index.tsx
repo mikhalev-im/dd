@@ -1,4 +1,7 @@
 import { Admin, Resource } from 'react-admin';
+import { HiLogin, HiShoppingCart, HiUser, HiTag, HiTruck } from 'react-icons/hi';
+
+import { HomeView } from './components/home';
 
 import { UserList } from './components/users/list';
 import { UserCreate } from './components/users/create';
@@ -19,10 +22,11 @@ import authProvider from './auth-provider';
 
 const App = () => (
   <Admin disableTelemetry title='DarlingDove Admin' authProvider={authProvider} dataProvider={dataProvider}>
-    <Resource name="users" list={UserList} create={UserCreate} edit={UserEdit} />
-    <Resource name="products" list={ProductList} create={ProductCreate} edit={ProductEdit} />
-    <Resource name="orders" list={OrderList} show={OrderShow} edit={OrderEdit} />
-    <Resource name="carts" list={CartList} />
+    <Resource name="users" icon={HiUser} list={UserList} create={UserCreate} edit={UserEdit} />
+    <Resource name="products" icon={HiTag} list={ProductList} create={ProductCreate} edit={ProductEdit} />
+    <Resource name="orders" icon={HiTruck} list={OrderList} show={OrderShow} edit={OrderEdit} />
+    <Resource name="carts" icon={HiShoppingCart} list={CartList} />
+    <Resource name="home" options={{ label: 'Back to website' }} icon={HiLogin} list={HomeView} />
   </Admin>
 );
 

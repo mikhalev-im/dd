@@ -1,4 +1,4 @@
-import { Record, List, Datagrid, TextField, DateField, FunctionField, ShowButton, EditButton, linkToRecord } from 'react-admin';
+import { Record, List, Datagrid, TextField, DateField, FunctionField, ShowButton, EditButton } from 'react-admin';
 
 const getUserName = (record: any) => {
   const parts = [];
@@ -27,11 +27,11 @@ const Actions = ({ record }: { record?: Record }) => {
 
 export const OrderList = (props: any) => {
   return (
-    <List {...props}>
+    <List {...props} sort={{ field: 'createdTime', order: 'desc' }} >
       <Datagrid>
         <TextField source="id" />
         <TextField source="shortId" />
-        <DateField source="createdTime" />
+        <DateField source="createdTime" locales='ru-RU' />
         <TextField source="user.user.email" label='Email' />
         <FunctionField label='User name' render={getUserName} />
         <FunctionField label='Sum' render={getTotalPrice} />

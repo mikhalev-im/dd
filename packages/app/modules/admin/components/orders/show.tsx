@@ -7,7 +7,7 @@ const styles = {
   container: {
     width: "800px",
     margin: "0 auto",
-    padding: '32px'
+    padding: '32px',
   },
   table: {
     borderCollapse: "collapse",
