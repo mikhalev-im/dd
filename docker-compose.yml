@@ -11,7 +11,10 @@ services:
       - mongo
     build:
       context: ./packages/api
+    image: ghcr.io/mikhalev-im/dd-api
     restart: always
+    env_file:
+      - ./packages/api/.env
     environment:
       - MONGO_URI=mongodb://mongo:27017/dd
 
@@ -20,6 +23,7 @@ services:
       - api
     build:
       context: ./packages/app
+    image: ghcr.io/mikhalev-im/dd-app
     restart: always
 
   nginx:
