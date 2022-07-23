@@ -61,6 +61,7 @@ export default (fastify: FastifyInstance) => {
         sameSite: true,
         httpOnly: true,
         secure: fastify.config.NODE_ENV === 'production',
+        path: '/',
       });
 
       return user;
