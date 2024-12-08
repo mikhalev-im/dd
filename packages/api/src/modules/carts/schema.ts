@@ -2,8 +2,8 @@ import { Schema, Types } from 'mongoose';
 import { Product, ProductJson } from '../products/schema';
 import { PromocodeJson } from '../promocodes/schema';
 
-export const FREE_DELIVERY_THRESHOLD = 800;
-export const PAID_DELIVERY_PRICE = 100;
+export const FREE_DELIVERY_THRESHOLD = 1500;
+export const PAID_DELIVERY_PRICE = 160;
 
 export interface CartItem {
   product: Types.ObjectId;

@@ -89,7 +89,7 @@ const OrderPage = () => {
                       src={item.product.images.sm}
                       alt={item.product.description}
                       width={175}
-                      height={125}
+                      height={175}
                       className='rounded'
                     />
                   </td>

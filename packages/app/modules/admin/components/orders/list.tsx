@@ -10,10 +10,16 @@ const getUserName = (record: any) => {
 };
 
 const getTotalPrice = (record: any) => {
-  return record.items.reduce((sum: number, item: { price: number, qty: number }) => {
+  const items = record.items.reduce((sum: number, item: { price: number, qty: number }) => {
     sum += item.price * item.qty;
     return sum;
   }, 0);
+
+  const services = record.services.reduce((sum: number, service: { price: number }) => {
+    return sum += service.price
+  }, 0);
+  
+  return items + services;
 }
 
 const Actions = ({ record }: { record?: Record }) => {

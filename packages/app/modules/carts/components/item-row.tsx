@@ -21,7 +21,7 @@ const ItemRow = ({ product, qty, onDelete, onChange }: ItemRowProps) => {
           src={product.images.sm}
           alt={product.description}
           width={175}
-          height={125}
+          height={175}
           className='rounded'
         />
       </td>

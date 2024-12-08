@@ -67,7 +67,7 @@ const ProductPage: NextPage = () => {
               <Image
                 src={imageSrc}
                 width={1400}
-                height={1000}
+                height={1400}
                 alt={product?.description}
                 className='rounded'
               />
@@ -135,7 +135,7 @@ const ProductPage: NextPage = () => {
 
       <div>
         <h2 className='px-2 text-2xl mb-4'>Вам также может понравиться:</h2>
-        <ProductList cacheKey={`related-products-${sku}`} filters={{ limit: 4, sortBy: 'random' }} />
+        <ProductList cacheKey={`related-products-${sku}`} filters={{ limit: 4, sortBy: 'random', inStock: true }} />
       </div>
     </PageWrapper>
   );

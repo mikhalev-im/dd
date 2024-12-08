@@ -104,7 +104,7 @@ export default (fastify: FastifyInstance) => {
 
       const total = await Product.countDocuments(filters);
       const data = sortBy !== 'random'
-        ? await Product.find(filters).limit(limit).skip(offset).sort({ [sortBy]: order })
+        ? await Product.find(filters).limit(limit).skip(offset).sort({ [sortBy]: order, _id: order  })
         : await Product.aggregate([{ $match: filters }, { $sample: { size: limit } }]);
 
       return { data, total };

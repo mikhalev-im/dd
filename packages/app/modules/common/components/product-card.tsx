@@ -20,7 +20,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               src={product.images.md}
               alt={product.description}
               width={700}
-              height={500}
+              height={700}
               layout='responsive'
               className='rounded'
             />
